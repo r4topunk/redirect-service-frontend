@@ -28,18 +28,32 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import {
+  AccountAvatar,
+  AccountProvider,
+  useActiveAccount,
+  useEnsAvatar,
+  useWalletBalance,
+} from "thirdweb/react";
+import { CHAIN, twClient } from "@/lib/thirdweb";
+import { formatAddress } from "@/lib/ethereum";
+import { ZERO_ADDRESS } from "thirdweb";
 
-export function NavUser({
-  user,
-}: {
-  user: {
-    name: string;
-    email: string;
-    avatar: string;
-  };
-}) {
+export function NavUser() {
   const { isMobile } = useSidebar();
   const { setTheme } = useTheme();
+  const activeAccount = useActiveAccount();
+  const { data, isLoading, isError } = useWalletBalance({
+    chain: CHAIN,
+    address: activeAccount?.address,
+    client: twClient,
+  });
+
+  const user = {
+    name: formatAddress(activeAccount?.address),
+    balance: `${data?.displayValue} ${data?.symbol}`,
+    avatar: `https://api.dicebear.com/9.x/glass/svg?seed=${activeAccount?.address}`,
+  };
 
   return (
     <SidebarMenu>
@@ -50,13 +64,17 @@ export function NavUser({
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar className="h-8 w-8 rounded-lg">
+              <Avatar className="h-8 w-8 rounded-full">
                 <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                <AvatarFallback className="rounded-lg">0x</AvatarFallback>
               </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">{user.name}</span>
-                <span className="truncate text-xs">{user.email}</span>
+              <div className="grid flex-1 text-left text-sm leading-tight font-geist-mono">
+                <span className="truncate font-semibold">
+                  {formatAddress(activeAccount?.address)}
+                </span>
+                <span className="truncate text-xs">
+                  {data?.displayValue} {data?.symbol}
+                </span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -75,7 +93,7 @@ export function NavUser({
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">{user.name}</span>
-                  <span className="truncate text-xs">{user.email}</span>
+                  <span className="truncate text-xs">{user.balance}</span>
                 </div>
               </div>
             </DropdownMenuLabel>
