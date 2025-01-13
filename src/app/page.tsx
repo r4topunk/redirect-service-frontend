@@ -1,3 +1,5 @@
+"use client";
+
 import { AppSidebar } from "@/components/app-sidebar";
 import { ConnectButton } from "@/components/connect-button";
 import {
@@ -15,8 +17,31 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import {
+  useActiveAccount,
+  useActiveWalletConnectionStatus,
+} from "thirdweb/react";
 
 export default function Page() {
+  const activeAccount = useActiveAccount();
+  const status = useActiveWalletConnectionStatus();
+
+  if (status === "connecting") {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <span>Connecting...</span>
+      </div>
+    );
+  }
+
+  if (!activeAccount) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <ConnectButton />
+      </div>
+    );
+  }
+  console.log(activeAccount);
   return (
     <SidebarProvider>
       <AppSidebar />
