@@ -6,7 +6,6 @@ import {
   ChevronsUpDown,
   CreditCard,
   LogOut,
-  Sparkles,
   Moon,
   Sun,
 } from "lucide-react";
@@ -28,22 +27,15 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import {
-  AccountAvatar,
-  AccountProvider,
-  useActiveAccount,
-  useEnsAvatar,
-  useWalletBalance,
-} from "thirdweb/react";
-import { CHAIN, twClient } from "@/lib/thirdweb";
 import { formatAddress } from "@/lib/ethereum";
-import { ZERO_ADDRESS } from "thirdweb";
+import { CHAIN, twClient } from "@/lib/thirdweb";
+import { useActiveAccount, useWalletBalance } from "thirdweb/react";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
   const { setTheme } = useTheme();
   const activeAccount = useActiveAccount();
-  const { data, isLoading, isError } = useWalletBalance({
+  const { data } = useWalletBalance({
     chain: CHAIN,
     address: activeAccount?.address,
     client: twClient,
