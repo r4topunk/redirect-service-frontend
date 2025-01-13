@@ -1,4 +1,5 @@
 import { AppSidebar } from "@/components/app-sidebar";
+import { ConnectButton } from "@/components/connect-button";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -44,7 +45,9 @@ export default function Page() {
             <div className="aspect-video rounded-xl bg-muted/50 flex justify-center items-center">
               <Button>Hello world</Button>
             </div>
-            <div className="aspect-video rounded-xl bg-muted/50" />
+            <div className="aspect-video rounded-xl bg-muted/50  flex justify-center items-center">
+              <ConnectButton />
+            </div>
             <div className="aspect-video rounded-xl bg-muted/50" />
           </div>
           <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
