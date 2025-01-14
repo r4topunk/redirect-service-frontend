@@ -1,6 +1,6 @@
 const SERVICE_API_KEY = process.env.SERVICE_API_KEY;
-// const SERVICE_URL = "https://redirect.ss-tm.org";
-const SERVICE_URL = "http://localhost:3001";
+const SERVICE_URL = "https://redirect.ss-tm.org";
+// const SERVICE_URL = "http://localhost:3001";
 
 export type RouteType = {
   uuid: string;
