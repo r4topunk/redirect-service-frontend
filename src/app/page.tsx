@@ -18,27 +18,26 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import {
-  useActiveAccount,
-  useActiveWalletConnectionStatus,
-} from "thirdweb/react";
-import { fetchRoutes, RouteType } from "@/lib/redirect";
-import { useEffect, useState } from "react";
-import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { CheckCheck, CheckIcon, Copy, ExternalLink } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { RouteType } from "@/lib/redirect";
+import { CheckIcon, Copy, ExternalLink } from "lucide-react";
+import { useEffect, useState } from "react";
+import {
+  useActiveAccount,
+  useActiveWalletConnectionStatus,
+} from "thirdweb/react";
 
 export default function Page() {
   const activeAccount = useActiveAccount();
