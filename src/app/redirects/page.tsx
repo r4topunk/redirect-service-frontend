@@ -1,5 +1,6 @@
 "use client";
 
+import RedirectEditDialog from "@/components/redirects/edit-dialog";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -32,7 +33,6 @@ function RedirectsPage() {
       }
       const routes = await response.json();
       setRoutes(routes.data);
-      console.log("Fetched routes:", routes);
     } catch (error) {
       console.error("Failed to fetch routes:", error);
     }
@@ -49,12 +49,13 @@ function RedirectsPage() {
   };
   return (
     <div className="p-4 flex-1 rounded-xl bg-muted/50 md:min-h-min w-full">
-      <Table className="max-w-full">
+      <Table className="max-w-full rounded-sm overflow-hidden">
         <TableHeader>
           <TableRow>
             <TableHead>UUID</TableHead>
             <TableHead>Created at</TableHead>
             <TableHead>Redirect</TableHead>
+            <TableHead>Description</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -66,7 +67,9 @@ function RedirectsPage() {
                 {new Date(route.createdAt).toLocaleDateString()}
               </TableCell>
               <TableCell>{route.url}</TableCell>
-              <TableCell className="flex gap-2">
+              <TableCell>{route.description}</TableCell>
+              <TableCell className="flex gap-1">
+                <RedirectEditDialog route={route} setRoutes={setRoutes} />
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>

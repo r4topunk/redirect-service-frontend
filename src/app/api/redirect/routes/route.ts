@@ -10,7 +10,6 @@ export async function GET() {
       { status: 500 }
     );
   } else {
-    console.log("Fetched routes:", data);
     return NextResponse.json({ data }, { status: 200 });
   }
 }
