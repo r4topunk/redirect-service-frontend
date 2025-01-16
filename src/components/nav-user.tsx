@@ -29,12 +29,19 @@ import {
 } from "@/components/ui/sidebar";
 import { formatAddress } from "@/lib/ethereum";
 import { CHAIN, twClient } from "@/lib/thirdweb";
-import { useActiveAccount, useWalletBalance } from "thirdweb/react";
+import {
+  useActiveAccount,
+  useActiveWallet,
+  useDisconnect,
+  useWalletBalance,
+} from "thirdweb/react";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
   const { setTheme } = useTheme();
   const activeAccount = useActiveAccount();
+  const { disconnect } = useDisconnect();
+  const wallet = useActiveWallet();
   const { data } = useWalletBalance({
     chain: CHAIN,
     address: activeAccount?.address,
@@ -46,6 +53,10 @@ export function NavUser() {
     balance: `${data?.displayValue} ${data?.symbol}`,
     avatar: `https://api.dicebear.com/9.x/glass/svg?seed=${activeAccount?.address}`,
   };
+
+  if (!wallet) {
+    return null;
+  }
 
   return (
     <SidebarMenu>
@@ -117,7 +128,7 @@ export function NavUser() {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => disconnect(wallet)}>
               <LogOut />
               Log out
             </DropdownMenuItem>

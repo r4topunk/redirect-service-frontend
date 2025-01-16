@@ -1,12 +1,6 @@
-import { AppSidebar } from "@/components/app-sidebar";
-import NavBreadcrumb from "@/components/nav-breadcrumb";
+import HomePage from "@/components/pages/home";
 import { ThemeProvider } from "@/components/theme-provider";
-import { Separator } from "@/components/ui/separator";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThirdwebProvider } from "thirdweb/react";
@@ -45,19 +39,7 @@ export default function RootLayout({
         >
           <ThirdwebProvider>
             <SidebarProvider>
-              <AppSidebar />
-              <SidebarInset>
-                <header className="flex h-16 shrink-0 items-center gap-2">
-                  <div className="flex items-center gap-2 px-4">
-                    <SidebarTrigger className="-ml-1" />
-                    <Separator orientation="vertical" className="mr-2 h-4" />
-                    <NavBreadcrumb />
-                  </div>
-                </header>
-                <div className="flex flex-1 flex-col gap-4 p-4 pt-0 max-w-full">
-                  {children}
-                </div>
-              </SidebarInset>
+              <HomePage>{children}</HomePage>
             </SidebarProvider>
           </ThirdwebProvider>
         </ThemeProvider>
