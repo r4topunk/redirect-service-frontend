@@ -24,11 +24,7 @@ export async function PUT(request: Request) {
   try {
     const body: PutRequestBody = await request.json();
     const { uuid, url, description } = body;
-    console.log({ uuid, url, description });
-
     const { data, error } = await updateRoute(uuid, url, description);
-
-    await new Promise((resolve) => setTimeout(resolve, 3000));
 
     if (error) {
       console.error("Failed to update route:", error);

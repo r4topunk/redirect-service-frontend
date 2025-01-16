@@ -1,6 +1,6 @@
 const SERVICE_API_KEY = process.env.SERVICE_API_KEY;
 const SERVICE_URL = "https://redirect.ss-tm.org";
-// const SERVICE_URL = "http://localhost:3001";
+// const SERVICE_URL = "http://localhost:3000";
 
 export type RouteType = {
   uuid: string;
@@ -12,7 +12,7 @@ export type RouteType = {
 
 export async function fetchRoutes() {
   try {
-    const req = await fetch(`${SERVICE_URL}/routes`, {
+    const req = await fetch(`${SERVICE_URL}/redirects`, {
       headers: {
         Authorization: SERVICE_API_KEY!,
       },
@@ -30,9 +30,10 @@ export async function updateRoute(
   description: string | null
 ) {
   try {
-    const req = await fetch(`${SERVICE_URL}/route/${uuid}`, {
+    const req = await fetch(`${SERVICE_URL}/redirects/${uuid}`, {
       method: "PUT",
       headers: {
+        "Content-Type": "application/json",
         Authorization: SERVICE_API_KEY!,
       },
       body: JSON.stringify({ url, description }),
