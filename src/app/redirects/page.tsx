@@ -1,5 +1,3 @@
-"use client";
-
 import RedirectRow from "@/components/redirects/redirect-row";
 import {
   Table,
@@ -8,28 +6,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { RouteType } from "@/lib/redirect";
-import { useEffect, useState } from "react";
+import { fetchRoutes } from "@/lib/redirect";
 
-function RedirectsPage() {
-  const [routes, setRoutes] = useState<RouteType[]>([]);
+async function RedirectsPage() {
+  const { data: routes, error } = await fetchRoutes();
 
-  async function getRoutes() {
-    try {
-      const response = await fetch("/api/redirect/routes");
-      if (!response.ok) {
-        throw new Error("Failed to fetch routes");
-      }
-      const routes = await response.json();
-      setRoutes(routes.data);
-    } catch (error) {
-      console.error("Failed to fetch routes:", error);
-    }
+  if (error || !routes) {
+    console.error("Failed to fetch routes:", error);
+    return <div>Failed to fetch routes</div>;
   }
-
-  useEffect(() => {
-    getRoutes();
-  }, []);
 
   return (
     <div className="p-4 flex-1 rounded-xl bg-muted/50 md:min-h-min w-full">
