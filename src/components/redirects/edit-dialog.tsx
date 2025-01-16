@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -20,13 +18,13 @@ import {
 } from "@/components/ui/tooltip";
 import { RouteType } from "@/lib/redirect";
 import { Edit } from "lucide-react";
-import { Dispatch, SetStateAction, useState } from "react";
-import { Textarea } from "../ui/textarea";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Textarea } from "../ui/textarea";
 
 interface RedirectEditDialogProps {
   route: RouteType;
-  setRoutes: Dispatch<SetStateAction<RouteType[]>>;
+  setRoute: (route: RouteType) => void;
 }
 
 interface FormData {
@@ -35,7 +33,7 @@ interface FormData {
   uuid: string;
 }
 
-function RedirectEditDialog({ route, setRoutes }: RedirectEditDialogProps) {
+function RedirectEditDialog({ route, setRoute }: RedirectEditDialogProps) {
   const {
     register,
     handleSubmit,
@@ -65,15 +63,11 @@ function RedirectEditDialog({ route, setRoutes }: RedirectEditDialogProps) {
         return;
       }
 
-      // const updatedData = await response.json();
-      setRoutes((prevRoutes) => {
-        const updatedRoutes = prevRoutes.map((r) => {
-          if (r.uuid === route.uuid) {
-            return { ...r, url: data.url, description: data.description };
-          }
-          return r;
-        });
-        return updatedRoutes;
+      // Update the local route state
+      setRoute({
+        ...route,
+        url: data.url,
+        description: data.description,
       });
       setOpen(false);
     } catch (error) {
