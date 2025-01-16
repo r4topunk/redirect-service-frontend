@@ -65,7 +65,7 @@ function RedirectEditDialog({ route, setRoutes }: RedirectEditDialogProps) {
         return;
       }
 
-      const updatedData = await response.json();
+      // const updatedData = await response.json();
       setRoutes((prevRoutes) => {
         const updatedRoutes = prevRoutes.map((r) => {
           if (r.uuid === route.uuid) {
