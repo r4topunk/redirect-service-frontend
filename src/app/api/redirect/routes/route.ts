@@ -1,4 +1,4 @@
-import { fetchRoutes } from "@/lib/redirect";
+import { fetchRoutes, updateRoute } from "@/lib/redirect";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -11,5 +11,39 @@ export async function GET() {
     );
   } else {
     return NextResponse.json({ data }, { status: 200 });
+  }
+}
+
+interface PutRequestBody {
+  uuid: string;
+  url: string;
+  description: string | null;
+}
+
+export async function PUT(request: Request) {
+  try {
+    const body: PutRequestBody = await request.json();
+    const { uuid, url, description } = body;
+    console.log({ uuid, url, description });
+
+    const { data, error } = await updateRoute(uuid, url, description);
+
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+
+    if (error) {
+      console.error("Failed to update route:", error);
+      return NextResponse.json(
+        { message: "Failed to update route" },
+        { status: 500 }
+      );
+    } else {
+      return NextResponse.json({ data }, { status: 200 });
+    }
+  } catch (err) {
+    console.error("Error parsing request body:", err);
+    return NextResponse.json(
+      { message: "Invalid request body" },
+      { status: 400 }
+    );
   }
 }
