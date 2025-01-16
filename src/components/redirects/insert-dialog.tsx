@@ -13,7 +13,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import { RouteType } from "@/lib/redirect";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 
 interface InsertDialogFormData {
@@ -22,7 +23,13 @@ interface InsertDialogFormData {
   quantity: number;
 }
 
-export default function InsertRedirectDialog() {
+interface InsertDialogProps {
+  setRedirects: Dispatch<SetStateAction<RouteType[]>>;
+}
+
+export default function InsertRedirectDialog({
+  setRedirects,
+}: InsertDialogProps) {
   const [open, setOpen] = useState(false);
   const {
     register,
@@ -44,6 +51,9 @@ export default function InsertRedirectDialog() {
       if (response.ok) {
         setOpen(false);
       }
+      const json = await response.json();
+      console.log("res", json.data);
+      setRedirects((redirects) => [...redirects, ...json.data]);
     } catch (error) {
       console.error("Error creating route:", error);
     }

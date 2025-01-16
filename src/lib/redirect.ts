@@ -33,7 +33,6 @@ interface RedirectInsertType {
 
 export async function createRedirect(redirects: RedirectInsertType[]) {
   try {
-    console.log({ redirects });
     const req = await fetch(`${SERVICE_URL}/redirects`, {
       method: "POST",
       headers: {
