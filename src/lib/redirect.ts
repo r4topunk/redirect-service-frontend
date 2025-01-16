@@ -1,3 +1,5 @@
+import { console } from "node:inspector/promises";
+
 const SERVICE_API_KEY = process.env.SERVICE_API_KEY;
 const SERVICE_URL = "https://redirect.ss-tm.org";
 // const SERVICE_URL = "http://localhost:3000";
@@ -19,6 +21,30 @@ export async function fetchRoutes() {
     });
     const routes = (await req.json()) as RouteType[];
     return { data: routes, error: null };
+  } catch (error) {
+    return { data: null, error };
+  }
+}
+
+interface RedirectInsertType {
+  url: string;
+  description: string | null;
+}
+
+export async function createRedirect(redirects: RedirectInsertType[]) {
+  try {
+    console.log({ redirects });
+    const req = await fetch(`${SERVICE_URL}/redirects`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: SERVICE_API_KEY!,
+      },
+      body: JSON.stringify(redirects),
+    });
+    const json = await req.json();
+    if (!req.ok) throw new Error(json?.message);
+    return { data: json.data, error: null };
   } catch (error) {
     return { data: null, error };
   }

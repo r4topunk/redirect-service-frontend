@@ -7,6 +7,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { fetchRoutes } from "@/lib/redirect";
+import InsertRedirectDialog from "@/components/redirects/insert-dialog";
 
 async function RedirectsPage() {
   const { data: routes, error } = await fetchRoutes();
@@ -18,6 +19,7 @@ async function RedirectsPage() {
 
   return (
     <div className="p-4 flex-1 rounded-xl bg-muted/50 md:min-h-min w-full">
+      <InsertRedirectDialog />
       <Table className="max-w-full rounded-sm overflow-hidden">
         <TableHeader>
           <TableRow>
