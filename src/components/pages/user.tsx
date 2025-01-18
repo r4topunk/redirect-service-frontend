@@ -11,10 +11,6 @@ import { Button } from "../ui/button";
 export default function UserPage({ user }: { user: User }) {
   const [claimed, setClaimed] = useState(false);
 
-  if (!user) {
-    return <div>User not found</div>;
-  }
-
   return (
     <div className="max-w-md mx-auto p-4 space-y-4">
       <div>
@@ -27,35 +23,45 @@ export default function UserPage({ user }: { user: User }) {
         <p className="text-center text-sm text-muted-foreground">{user.bio}</p>
       </div>
       <div className="flex justify-center gap-2">
-        <Button asChild variant="outline">
-          <Link href={`https://twitter.com/${user.username}`} target="_blank">
-            <FaXTwitter />
-          </Link>
-        </Button>
-        <Button asChild variant="outline">
-          <Link href={`https://instagram.com/${user.username}`} target="_blank">
-            <FaInstagram />
-          </Link>
-        </Button>
-        <Button asChild variant="outline">
-          <Link href={`https://tiktok.com/@${user.username}`} target="_blank">
-            <FaTiktok />
-          </Link>
-        </Button>
+        {user.links.x && (
+          <Button asChild variant="outline">
+            <Link href={user.links.x} target="_blank">
+              <FaXTwitter />
+            </Link>
+          </Button>
+        )}
+        {user.links.instagram && (
+          <Button asChild variant="outline">
+            <Link href={user.links.instagram} target="_blank">
+              <FaInstagram />
+            </Link>
+          </Button>
+        )}
+        {user.links.tiktok && (
+          <Button asChild variant="outline">
+            <Link href={user.links.tiktok} target="_blank">
+              <FaTiktok />
+            </Link>
+          </Button>
+        )}
       </div>
       <div className="flex justify-center gap-2">
-        <Button className="w-full" asChild variant="outline">
-          <Link href={`https://shop.com/${user.username}`} target="_blank">
-            <Store />
-            Shop
-          </Link>
-        </Button>
-        <Button className="w-full" asChild variant="outline">
-          <Link href={`mailto:${user.email}`} target="_blank">
-            <Mail />
-            Email
-          </Link>
-        </Button>
+        {user.links.shop && (
+          <Button className="w-full" asChild variant="outline">
+            <Link href={user.links.shop} target="_blank">
+              <Store />
+              Shop
+            </Link>
+          </Button>
+        )}
+        {user.links.email && (
+          <Button className="w-full" asChild variant="outline">
+            <Link href={`mailto:${user.email}`} target="_blank">
+              <Mail />
+              Email
+            </Link>
+          </Button>
+        )}
       </div>
       {!claimed ? (
         <Button
@@ -76,7 +82,7 @@ export default function UserPage({ user }: { user: User }) {
         </Button>
       )}
       <div className="flex flex-col gap-3">
-        {user.links.slice(5).map((link, index) => {
+        {user.links.items.map((link, index) => {
           return (
             <Button asChild variant={"secondary"} key={index}>
               <Link href={link.url} target="_blank">

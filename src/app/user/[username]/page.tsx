@@ -1,22 +1,31 @@
 import UserPage from "@/components/pages/user";
 import { Address } from "thirdweb";
 
-interface Link {
+interface UserLink {
   url: string;
   description: string;
 }
 
+interface Links {
+  items: UserLink[];
+  x: string | null;
+  instagram: string | null;
+  tiktok: string | null;
+  shop: string | null;
+  email: string | null;
+}
+
 export interface User {
   username: string;
-  address: Address;
+  address: Address | null;
   email: string;
   avatar: string;
   bio: string;
-  links: Link[];
+  links: Links;
 }
 
-function getUser(username: string): User | undefined {
-  return users.find((user) => user.username === username);
+function getUser(username: string): User | null {
+  return users.find((user) => user.username === username) || null;
 }
 
 const users: User[] = [
@@ -27,40 +36,27 @@ const users: User[] = [
     avatar:
       "https://framerusercontent.com/images/AHDBORneJuYz3uM44DprfVeIiNk.jpeg",
     bio: "Creative Director",
-    links: [
-      {
-        url: "https://x.com/P_____Andrade",
-        description: "X",
-      },
-      {
-        url: "https://www.instagram.com/pedro_and/",
-        description: "Instagram",
-      },
-      {
-        url: "https://www.tiktok.com/@piet_org",
-        description: "TikTok",
-      },
-      {
-        url: "https://www.p-andrade.com/",
-        description: "Shop",
-      },
-      {
-        url: "mailto:pedro_and@example.com",
-        description: "Email",
-      },
-      {
-        url: "https://piet.com.br",
-        description: "Link 1",
-      },
-      {
-        url: "https://piet.com.br",
-        description: "Link 2",
-      },
-      {
-        url: "https://piet.com.br",
-        description: "Link 3",
-      },
-    ],
+    links: {
+      items: [
+        {
+          url: "https://piet.com.br",
+          description: "Link 1",
+        },
+        {
+          url: "https://piet.com.br",
+          description: "Link 2",
+        },
+        {
+          url: "https://piet.com.br",
+          description: "Link 3",
+        },
+      ],
+      x: "https://x.com/P_____Andrade",
+      instagram: "https://www.instagram.com/pedro_and/",
+      tiktok: "https://www.tiktok.com/@piet_org",
+      shop: "https://www.p-andrade.com/",
+      email: "mailto:pedro_and@example.com",
+    },
   },
   {
     username: "marina_cobucci",
@@ -69,28 +65,23 @@ const users: User[] = [
     avatar:
       "https://framerusercontent.com/images/P0jbH4qsotC4zqfnLNeBlG0EX6U.jpeg",
     bio: "Product Manager",
-    links: [
-      {
-        url: "https://twitter.com/marina_cobucci",
-        description: "Twitter",
-      },
-      {
-        url: "https://instagram.com/marina_cobucci",
-        description: "Instagram",
-      },
-      {
-        url: "https://tiktok.com/@marina_cobucci",
-        description: "TikTok",
-      },
-      {
-        url: "https://shop.com/marina_cobucci",
-        description: "Shop",
-      },
-      {
-        url: "mailto:marina_cobucci@example.com",
-        description: "Email",
-      },
-    ],
+    links: {
+      items: [
+        {
+          url: "https://piet.com.br",
+          description: "Link 1",
+        },
+        {
+          url: "https://piet.com.br",
+          description: "Link 2",
+        },
+      ],
+      x: "https://twitter.com/marina_cobucci",
+      instagram: "https://instagram.com/marina_cobucci",
+      tiktok: null,
+      shop: null,
+      email: "mailto:marina_cobucci@example.com",
+    },
   },
 ];
 
