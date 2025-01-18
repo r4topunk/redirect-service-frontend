@@ -69,7 +69,7 @@ export default function UserPage({ user }: { user: User }) {
       ) : (
         <Button
           onClick={() => setClaimed(true)}
-          className=" w-full bg-orange-100 text-orange-500 border-none px-4 py-2 rounded-md mx-auto font-medium flex items-center justify-center gap-1 leading-none hover:bg-orange-100"
+          className="w-full bg-orange-100 text-orange-500 hover:bg-orange-100 border-none px-4 py-2 rounded-md mx-auto font-medium flex items-center justify-center gap-1 leading-none"
         >
           <Handshake />
           You met {user.username}
