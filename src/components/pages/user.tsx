@@ -7,9 +7,14 @@ import { useState } from "react";
 import { FaInstagram, FaTiktok, FaXTwitter } from "react-icons/fa6";
 import PietLogo from "../icons/piet";
 import { Button } from "../ui/button";
+import UserForm from "../user-form";
 
 export default function UserPage({ user }: { user: User }) {
   const [claimed, setClaimed] = useState(false);
+
+  if (!user.address) {
+    return <UserForm user={user} />;
+  }
 
   return (
     <div className="max-w-md mx-auto p-4 space-y-4">

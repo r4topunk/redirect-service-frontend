@@ -1,26 +1,26 @@
 import UserPage from "@/components/pages/user";
-import { Address } from "thirdweb";
 
 interface UserLink {
   url: string;
   description: string;
 }
 
-interface Links {
+export interface Links {
   items: UserLink[];
-  x: string | null;
-  instagram: string | null;
-  tiktok: string | null;
-  shop: string | null;
-  email: string | null;
+  x?: string;
+  instagram?: string;
+  tiktok?: string;
+  shop?: string;
+  email?: string;
 }
 
 export interface User {
   username: string;
-  address: Address | null;
+  address: string;
   email: string;
   avatar: string;
   bio: string;
+  nfc: string;
   links: Links;
 }
 
@@ -33,6 +33,7 @@ const users: User[] = [
     username: "pedro_and",
     address: "0xP",
     email: "pedro_and@example.com",
+    nfc: "0000-",
     avatar:
       "https://framerusercontent.com/images/AHDBORneJuYz3uM44DprfVeIiNk.jpeg",
     bio: "Creative Director",
@@ -62,6 +63,7 @@ const users: User[] = [
     username: "marina_cobucci",
     address: "0xM",
     email: "marina_cobucci@example.com",
+    nfc: "0000-",
     avatar:
       "https://framerusercontent.com/images/P0jbH4qsotC4zqfnLNeBlG0EX6U.jpeg",
     bio: "Product Manager",
@@ -78,8 +80,6 @@ const users: User[] = [
       ],
       x: "https://twitter.com/marina_cobucci",
       instagram: "https://instagram.com/marina_cobucci",
-      tiktok: null,
-      shop: null,
       email: "mailto:marina_cobucci@example.com",
     },
   },
