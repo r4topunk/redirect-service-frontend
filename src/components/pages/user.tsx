@@ -76,7 +76,7 @@ export default function UserPage({ user }: { user: User }) {
         </Button>
       )}
       <div className="flex flex-col gap-3">
-        {user.links.map((link, index) => {
+        {user.links.slice(5).map((link, index) => {
           return (
             <Button asChild variant={"secondary"} key={index}>
               <Link href={link.url} target="_blank">

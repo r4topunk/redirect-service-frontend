@@ -29,24 +29,36 @@ const users: User[] = [
     bio: "Creative Director",
     links: [
       {
-        url: "https://twitter.com/pedro_and",
-        description: "Twitter",
+        url: "https://x.com/P_____Andrade",
+        description: "X",
       },
       {
-        url: "https://instagram.com/pedro_and",
+        url: "https://www.instagram.com/pedro_and/",
         description: "Instagram",
       },
       {
-        url: "https://tiktok.com/@pedro_and",
+        url: "https://www.tiktok.com/@piet_org",
         description: "TikTok",
       },
       {
-        url: "https://shop.com/pedro_and",
+        url: "https://www.p-andrade.com/",
         description: "Shop",
       },
       {
         url: "mailto:pedro_and@example.com",
         description: "Email",
+      },
+      {
+        url: "https://piet.com.br",
+        description: "Link 1",
+      },
+      {
+        url: "https://piet.com.br",
+        description: "Link 2",
+      },
+      {
+        url: "https://piet.com.br",
+        description: "Link 3",
       },
     ],
   },
