@@ -71,8 +71,8 @@ export default function UserPage({ user }: { user: User }) {
           onClick={() => setClaimed(true)}
           className="w-full bg-orange-100 text-orange-500 hover:bg-orange-100 border-none px-4 py-2 rounded-md mx-auto font-medium flex items-center justify-center gap-1 leading-none"
         >
-          <Handshake />
-          You met {user.username}
+          <Handshake strokeWidth={1.5} />
+          You met @{user.username}
         </Button>
       )}
       <div className="flex flex-col gap-3">
