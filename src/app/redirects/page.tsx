@@ -1,6 +1,8 @@
 import RedirectPage from "@/components/pages/redirect";
 import { fetchRoutes } from "@/lib/redirect";
 
+export const revalidate = 0;
+
 async function RedirectsPage() {
   const { data: routes, error } = await fetchRoutes();
 
