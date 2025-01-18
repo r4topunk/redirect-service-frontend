@@ -15,7 +15,7 @@ import { ConnectButton } from "./connect-button";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
-const formSchema = z.object({
+export const formSchema = z.object({
   username: z
     .string()
     .min(4, { message: "Username must be at least 2 characters." })
@@ -45,18 +45,41 @@ const formSchema = z.object({
   }),
 });
 
+export type UserFormData = z.infer<typeof formSchema>;
+
 interface UserFormProps {
-  user?: z.infer<typeof formSchema>;
+  user?: UserFormData;
 }
 
 function UserForm({ user: defaultUser }: UserFormProps) {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<UserFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultUser,
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: UserFormData) {
     console.log(values);
+
+    const formData = new FormData();
+    formData.append("username", values.username);
+    formData.append("address", values.address);
+    formData.append("nfc", values.nfc);
+    formData.append("email", values.email);
+    formData.append("bio", values.bio);
+    if (values.avatar) formData.append("avatar", values.avatar);
+    formData.append("links", JSON.stringify(values.links));
+
+    fetch("/api/user", {
+      method: "PUT",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   }
 
   return (
