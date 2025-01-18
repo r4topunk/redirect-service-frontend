@@ -27,7 +27,6 @@ function UserRegisterPage({ uuid }: UserRegisterPageProps) {
         email: userEmail,
         nfc: uuid,
         username: "r4to",
-        avatar: "https://avatars.githubusercontent.com/u/43586732?v=4",
         bio: "Hacker",
         links: {
           items: [],

@@ -23,7 +23,7 @@ const formSchema = z.object({
   address: z.string(),
   nfc: z.string(),
   email: z.string().email({ message: "Invalid email address." }),
-  avatar: z.string().url({ message: "Invalid URL." }),
+  avatar: z.instanceof(File).optional(),
   bio: z.string().nonempty({ message: "Bio is required." }),
   links: z.object({
     items: z.array(
@@ -99,7 +99,15 @@ function UserForm({ user: defaultUser }: UserFormProps) {
               <FormItem className="space-y-1">
                 <FormLabel className="font-medium">Avatar URL</FormLabel>
                 <FormControl>
-                  <Input placeholder="Avatar URL" type="url" {...field} />
+                  <Input
+                    placeholder="Avatar URL"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      field.onChange(file);
+                    }}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
