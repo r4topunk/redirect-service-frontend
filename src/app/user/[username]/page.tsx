@@ -94,8 +94,12 @@ const users: User[] = [
   },
 ];
 
-export default function Page({ params }: { params: { username: string } }) {
-  const user = getUser(params.username);
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ username: string }>;
+}) {
+  const user = getUser((await params).username);
 
   if (!user) {
     return <div>User not found</div>;
