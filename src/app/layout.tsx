@@ -1,6 +1,4 @@
-import HomePage from "@/components/pages/home";
 import { ThemeProvider } from "@/components/theme-provider";
-import { SidebarProvider } from "@/components/ui/sidebar";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThirdwebProvider } from "thirdweb/react";
@@ -37,11 +35,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <ThirdwebProvider>
-            <SidebarProvider>
-              <HomePage>{children}</HomePage>
-            </SidebarProvider>
-          </ThirdwebProvider>
+          <ThirdwebProvider>{children}</ThirdwebProvider>
         </ThemeProvider>
       </body>
     </html>

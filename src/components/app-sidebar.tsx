@@ -25,13 +25,13 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "/",
+      url: "/dashboard",
       icon: HomeIcon,
       isActive: true,
     },
     {
       title: "Redirects",
-      url: "/redirects",
+      url: "/dashboard/redirects",
       icon: Link,
     },
   ],
