@@ -23,41 +23,71 @@ export const formSchema = z.object({
   address: z.string(),
   nfc: z.string(),
   email: z.string().email({ message: "Invalid email address." }),
-  avatar: z.instanceof(File).optional(),
+  avatar: z.instanceof(File),
   bio: z.string().nonempty({ message: "Bio is required." }),
   links: z.object({
-    items: z.array(
-      z.object({
-        url: z.string().url({ message: "Invalid link." }),
-        description: z
-          .string()
-          .nonempty({ message: "Description is required." }),
-      })
-    ),
-    x: z.string().url({ message: "Invalid X link." }).optional(),
+    items: z
+      .array(
+        z.object({
+          url: z.string().url({ message: "Invalid link." }),
+          description: z
+            .string()
+            .nonempty({ message: "Description is required." }),
+        })
+      )
+      .optional(),
+    x: z
+      .string()
+      .optional()
+      .transform((val) => (val === "" ? undefined : val)),
     instagram: z
       .string()
-      .url({ message: "Invalid Instagram link." })
-      .optional(),
-    tiktok: z.string().url({ message: "Invalid TikTok link." }).optional(),
-    shop: z.string().url({ message: "Invalid Shop link." }).optional(),
-    email: z.string().email({ message: "Invalid contact email." }).optional(),
+      .optional()
+      .transform((val) => (val === "" ? undefined : val)),
+    tiktok: z
+      .string()
+      .optional()
+      .transform((val) => (val === "" ? undefined : val)),
+    shop: z
+      .string()
+      .optional()
+      .transform((val) => (val === "" ? undefined : val)),
+    email: z
+      .string()
+      .optional()
+      .transform((val) => (val === "" ? undefined : val)),
   }),
 });
 
 export type UserFormData = z.infer<typeof formSchema>;
 
 interface UserFormProps {
-  user?: UserFormData;
+  user?: Partial<UserFormData>;
 }
 
 function UserForm({ user: defaultUser }: UserFormProps) {
   const form = useForm<UserFormData>({
     resolver: zodResolver(formSchema),
-    defaultValues: defaultUser,
+    defaultValues: {
+      username: defaultUser?.username ?? "",
+      address: defaultUser?.address ?? "",
+      nfc: defaultUser?.nfc ?? "",
+      email: defaultUser?.email ?? "",
+      bio: defaultUser?.bio ?? "",
+      links: {
+        items: defaultUser?.links?.items ?? [],
+        x: defaultUser?.links?.x ?? "",
+        instagram: defaultUser?.links?.instagram ?? "",
+        tiktok: defaultUser?.links?.tiktok ?? "",
+        shop: defaultUser?.links?.shop ?? "",
+        email: defaultUser?.links?.email ?? "",
+      },
+    },
   });
 
-  function onSubmit(values: UserFormData) {
+  console.log(form.formState);
+
+  async function onSubmit(values: UserFormData) {
     console.log(values);
 
     const formData = new FormData();
@@ -69,17 +99,10 @@ function UserForm({ user: defaultUser }: UserFormProps) {
     if (values.avatar) formData.append("avatar", values.avatar);
     formData.append("links", JSON.stringify(values.links));
 
-    fetch("/api/user", {
+    await fetch("/api/user", {
       method: "PUT",
       body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    });
   }
 
   return (
@@ -192,7 +215,12 @@ function UserForm({ user: defaultUser }: UserFormProps) {
               <FormItem className="space-y-1">
                 <FormLabel className="font-medium">X</FormLabel>
                 <FormControl>
-                  <Input placeholder="https://x.com/" type="url" {...field} />
+                  <Input
+                    placeholder="https://x.com/"
+                    type="url"
+                    {...field}
+                    value={field.value ?? ""}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -209,6 +237,7 @@ function UserForm({ user: defaultUser }: UserFormProps) {
                     placeholder="https://instagram.com/"
                     type="url"
                     {...field}
+                    value={field.value ?? ""}
                   />
                 </FormControl>
                 <FormMessage />
@@ -226,6 +255,7 @@ function UserForm({ user: defaultUser }: UserFormProps) {
                     placeholder="https://tiktok.com/"
                     type="url"
                     {...field}
+                    value={field.value ?? ""}
                   />
                 </FormControl>
                 <FormMessage />
@@ -243,6 +273,7 @@ function UserForm({ user: defaultUser }: UserFormProps) {
                     placeholder="https://shop.com/"
                     type="url"
                     {...field}
+                    value={field.value ?? ""}
                   />
                 </FormControl>
                 <FormMessage />
@@ -260,6 +291,7 @@ function UserForm({ user: defaultUser }: UserFormProps) {
                     placeholder="contact@mail.com"
                     type="email"
                     {...field}
+                    value={field.value ?? ""}
                   />
                 </FormControl>
                 <FormMessage />
@@ -267,8 +299,12 @@ function UserForm({ user: defaultUser }: UserFormProps) {
             )}
           />
         </div>
-        <Button type="submit" className="w-full">
-          Submit
+        <Button
+          type="submit"
+          className="w-full"
+          disabled={form.formState.isSubmitting}
+        >
+          {form.formState.isSubmitting ? "Submitting..." : "Submit"}
         </Button>
       </form>
     </Form>

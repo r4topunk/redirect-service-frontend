@@ -6,7 +6,7 @@ interface UserLink {
 }
 
 export interface Links {
-  items: UserLink[];
+  items?: UserLink[];
   x?: string;
   instagram?: string;
   tiktok?: string;

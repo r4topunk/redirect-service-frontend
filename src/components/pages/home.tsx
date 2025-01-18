@@ -40,6 +40,8 @@ function HomePage({
     );
   }
 
+  console.log("activeAccount", activeAccount.address);
+
   if (
     !activeAccount.address ||
     !ADMIN_ADDRESSES.includes(activeAccount.address)

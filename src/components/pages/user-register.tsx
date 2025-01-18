@@ -15,7 +15,7 @@ function UserRegisterPage({ uuid }: UserRegisterPageProps) {
 
   const userAdress = account?.address;
   const userEmail = profiles?.[0].details.email;
-  console.log("UserRegisterPage", userAdress, userEmail);
+
   if (!userAdress || !userEmail) {
     return <ConnectButton />;
   }
@@ -26,11 +26,6 @@ function UserRegisterPage({ uuid }: UserRegisterPageProps) {
         address: userAdress,
         email: userEmail,
         nfc: uuid,
-        username: "r4to",
-        bio: "Hacker",
-        links: {
-          items: [],
-        },
       }}
     />
   );
