@@ -11,6 +11,11 @@ import {
   useActiveWalletConnectionStatus,
 } from "thirdweb/react";
 
+const ADMIN_ADDRESSES = [
+  "0xEFFe72E582FCaff4b5bDa8c5a51a001b51F49B0D",
+  "0x1fd1405aE28ef1855A0d26CE07555Be661405fCb",
+];
+
 function HomePage({
   children,
 }: Readonly<{
@@ -31,6 +36,17 @@ function HomePage({
     return (
       <div className="flex items-center justify-center h-screen w-full">
         <ConnectButton />
+      </div>
+    );
+  }
+
+  if (
+    !activeAccount.address ||
+    !ADMIN_ADDRESSES.includes(activeAccount.address)
+  ) {
+    return (
+      <div className="flex items-center justify-center h-screen w-full">
+        <span>Unauthorized</span>
       </div>
     );
   }
