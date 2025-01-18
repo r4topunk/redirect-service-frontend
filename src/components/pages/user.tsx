@@ -59,7 +59,7 @@ export default function UserPage({ user }: { user: User }) {
       {!claimed ? (
         <Button
           onClick={() => setClaimed(true)}
-          className=" w-full bg-purple-200 text-purple-700 border border-purple-700 px-4 py-2 rounded-md mx-auto font-semibold flex items-center justify-center gap-1 leading-none hover:bg-purple-200 hover:scale-[1.02] transition-transform"
+          className=" w-full bg-orange-200 text-orange-500 border border-orange-500 px-4 py-2 rounded-md mx-auto font-semibold flex items-center justify-center gap-1 leading-none hover:bg-orange-200 hover:scale-[1.02] transition-transform"
         >
           <Sparkles className="inline-block w-4 h-4" />
           Claim NFT
@@ -67,7 +67,7 @@ export default function UserPage({ user }: { user: User }) {
       ) : (
         <Button
           onClick={() => setClaimed(true)}
-          className=" w-full bg-purple-200 text-purple-700 border-none px-4 py-2 rounded-md mx-auto font-medium flex items-center justify-center gap-1 leading-none hover:bg-purple-200"
+          className=" w-full bg-orange-200 text-orange-500 border-none px-4 py-2 rounded-md mx-auto font-medium flex items-center justify-center gap-1 leading-none hover:bg-orange-200"
         >
           <Handshake />
           You met {user.username}
