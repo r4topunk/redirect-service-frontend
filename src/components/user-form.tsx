@@ -25,40 +25,38 @@ export const formSchema = z.object({
   address: z.string(),
   nfc: z.string(),
   email: z.string().email({ message: "Invalid email address" }),
-  avatar: z.instanceof(File, { message: "Invalid avatar" }),
+  avatar: z.instanceof(File, { message: "Invalid avatar" }).or(z.string()),
   bio: z.string().nonempty({ message: "Role is required" }),
-  links: z.object({
-    items: z
-      .array(
-        z.object({
-          url: z.string().url({ message: "Invalid link" }),
-          description: z
-            .string()
-            .nonempty({ message: "Description is required" }),
-        })
-      )
-      .optional(),
-    x: z
-      .string()
-      .optional()
-      .transform((val) => (val === "" ? undefined : val)),
-    instagram: z
-      .string()
-      .optional()
-      .transform((val) => (val === "" ? undefined : val)),
-    tiktok: z
-      .string()
-      .optional()
-      .transform((val) => (val === "" ? undefined : val)),
-    shop: z
-      .string()
-      .optional()
-      .transform((val) => (val === "" ? undefined : val)),
-    email: z
-      .string()
-      .optional()
-      .transform((val) => (val === "" ? undefined : val)),
-  }),
+  x: z
+    .string()
+    .optional()
+    .transform((val) => (val === "" ? undefined : val)),
+  instagram: z
+    .string()
+    .optional()
+    .transform((val) => (val === "" ? undefined : val)),
+  tiktok: z
+    .string()
+    .optional()
+    .transform((val) => (val === "" ? undefined : val)),
+  shop: z
+    .string()
+    .optional()
+    .transform((val) => (val === "" ? undefined : val)),
+  contact_email: z
+    .string()
+    .optional()
+    .transform((val) => (val === "" ? undefined : val)),
+  links: z
+    .array(
+      z.object({
+        url: z.string().url({ message: "Invalid link" }),
+        description: z
+          .string()
+          .nonempty({ message: "Description is required" }),
+      })
+    )
+    .optional(),
 });
 
 export type UserFormData = z.infer<typeof formSchema>;
@@ -76,18 +74,14 @@ function UserForm({ user: defaultUser }: UserFormProps) {
       nfc: defaultUser?.nfc ?? "",
       email: defaultUser?.email ?? "",
       bio: defaultUser?.bio ?? "",
-      links: {
-        items: defaultUser?.links?.items ?? [],
-        x: defaultUser?.links?.x ?? "",
-        instagram: defaultUser?.links?.instagram ?? "",
-        tiktok: defaultUser?.links?.tiktok ?? "",
-        shop: defaultUser?.links?.shop ?? "",
-        email: defaultUser?.links?.email ?? "",
-      },
+      x: defaultUser?.x ?? "",
+      instagram: defaultUser?.instagram ?? "",
+      tiktok: defaultUser?.tiktok ?? "",
+      shop: defaultUser?.shop ?? "",
+      contact_email: defaultUser?.email ?? "",
+      links: defaultUser?.links ?? [],
     },
   });
-
-  console.log(form.formState);
 
   async function onSubmit(values: UserFormData) {
     console.log(values);
@@ -145,7 +139,7 @@ function UserForm({ user: defaultUser }: UserFormProps) {
             name="avatar"
             render={({ field }) => (
               <FormItem className="space-y-1">
-                <FormLabel className="font-medium">Avatar URL</FormLabel>
+                <FormLabel className="font-medium">Avatar</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Avatar URL"
@@ -215,7 +209,7 @@ function UserForm({ user: defaultUser }: UserFormProps) {
           </FormDescription>
           <FormField
             control={form.control}
-            name="links.x"
+            name="x"
             render={({ field }) => (
               <FormItem className="space-y-1">
                 <FormLabel className="font-medium">X</FormLabel>
@@ -234,7 +228,7 @@ function UserForm({ user: defaultUser }: UserFormProps) {
           />
           <FormField
             control={form.control}
-            name="links.instagram"
+            name="instagram"
             render={({ field }) => (
               <FormItem className="space-y-1">
                 <FormLabel className="font-medium">Instagram</FormLabel>
@@ -253,7 +247,7 @@ function UserForm({ user: defaultUser }: UserFormProps) {
           />
           <FormField
             control={form.control}
-            name="links.tiktok"
+            name="tiktok"
             render={({ field }) => (
               <FormItem className="space-y-1">
                 <FormLabel className="font-medium">TikTok</FormLabel>
@@ -272,7 +266,7 @@ function UserForm({ user: defaultUser }: UserFormProps) {
           />
           <FormField
             control={form.control}
-            name="links.shop"
+            name="shop"
             render={({ field }) => (
               <FormItem className="space-y-1">
                 <FormLabel className="font-medium">Shop</FormLabel>
@@ -290,7 +284,7 @@ function UserForm({ user: defaultUser }: UserFormProps) {
           />
           <FormField
             control={form.control}
-            name="links.email"
+            name="email"
             render={({ field }) => (
               <FormItem className="space-y-1">
                 <FormLabel className="font-medium">Contact Email</FormLabel>

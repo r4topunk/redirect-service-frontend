@@ -5,15 +5,6 @@ interface UserLink {
   description: string;
 }
 
-export interface Links {
-  items?: UserLink[];
-  x?: string;
-  instagram?: string;
-  tiktok?: string;
-  shop?: string;
-  email?: string;
-}
-
 export interface User {
   username: string;
   address: string;
@@ -21,7 +12,12 @@ export interface User {
   avatar: string;
   bio: string;
   nfc: string;
-  links: Links;
+  links: UserLink[];
+  x?: string;
+  instagram?: string;
+  tiktok?: string;
+  shop?: string;
+  contact_email?: string;
 }
 
 function getUser(username: string): User | null {
@@ -37,51 +33,25 @@ const users: User[] = [
     avatar:
       "https://framerusercontent.com/images/AHDBORneJuYz3uM44DprfVeIiNk.jpeg",
     bio: "Creative Director",
-    links: {
-      items: [
-        {
-          url: "https://piet.com.br",
-          description: "Link 1",
-        },
-        {
-          url: "https://piet.com.br",
-          description: "Link 2",
-        },
-        {
-          url: "https://piet.com.br",
-          description: "Link 3",
-        },
-      ],
-      x: "https://x.com/P_____Andrade",
-      instagram: "https://www.instagram.com/pedro_and/",
-      tiktok: "https://www.tiktok.com/@piet_org",
-      shop: "https://www.p-andrade.com/",
-      email: "mailto:pedro_and@example.com",
-    },
-  },
-  {
-    username: "marina_cobucci",
-    address: "0xM",
-    email: "marina_cobucci@example.com",
-    nfc: "0000-",
-    avatar:
-      "https://framerusercontent.com/images/P0jbH4qsotC4zqfnLNeBlG0EX6U.jpeg",
-    bio: "Product Manager",
-    links: {
-      items: [
-        {
-          url: "https://piet.com.br",
-          description: "Link 1",
-        },
-        {
-          url: "https://piet.com.br",
-          description: "Link 2",
-        },
-      ],
-      x: "https://twitter.com/marina_cobucci",
-      instagram: "https://instagram.com/marina_cobucci",
-      email: "mailto:marina_cobucci@example.com",
-    },
+    x: "https://x.com/P_____Andrade",
+    instagram: "https://www.instagram.com/pedro_and/",
+    tiktok: "https://www.tiktok.com/@piet_org",
+    shop: "https://www.p-andrade.com/",
+    contact_email: "mailto:pedro_and@example.com",
+    links: [
+      {
+        url: "https://piet.com.br",
+        description: "Link 1",
+      },
+      {
+        url: "https://piet.com.br",
+        description: "Link 2",
+      },
+      {
+        url: "https://piet.com.br",
+        description: "Link 3",
+      },
+    ],
   },
 ];
 

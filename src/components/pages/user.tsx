@@ -12,10 +12,6 @@ import UserForm from "../user-form";
 export default function UserPage({ user }: { user: User }) {
   const [claimed, setClaimed] = useState(false);
 
-  if (!user.address) {
-    return <UserForm user={user} />;
-  }
-
   return (
     <div className="max-w-md mx-auto p-4 space-y-4">
       <div>
@@ -28,38 +24,38 @@ export default function UserPage({ user }: { user: User }) {
         <p className="text-center text-sm text-muted-foreground">{user.bio}</p>
       </div>
       <div className="flex justify-center gap-2">
-        {user.links.x && (
+        {user.x && (
           <Button asChild variant="outline">
-            <Link href={user.links.x} target="_blank">
+            <Link href={user.x} target="_blank">
               <FaXTwitter />
             </Link>
           </Button>
         )}
-        {user.links.instagram && (
+        {user.instagram && (
           <Button asChild variant="outline">
-            <Link href={user.links.instagram} target="_blank">
+            <Link href={user.instagram} target="_blank">
               <FaInstagram />
             </Link>
           </Button>
         )}
-        {user.links.tiktok && (
+        {user.tiktok && (
           <Button asChild variant="outline">
-            <Link href={user.links.tiktok} target="_blank">
+            <Link href={user.tiktok} target="_blank">
               <FaTiktok />
             </Link>
           </Button>
         )}
       </div>
       <div className="flex justify-center gap-2">
-        {user.links.shop && (
+        {user.shop && (
           <Button className="w-full" asChild variant="outline">
-            <Link href={user.links.shop} target="_blank">
+            <Link href={user.shop} target="_blank">
               <Store />
               Shop
             </Link>
           </Button>
         )}
-        {user.links.email && (
+        {user.email && (
           <Button className="w-full" asChild variant="outline">
             <Link href={`mailto:${user.email}`} target="_blank">
               <Mail />
@@ -87,7 +83,7 @@ export default function UserPage({ user }: { user: User }) {
         </Button>
       )}
       <div className="flex flex-col gap-3">
-        {user.links.items.map((link, index) => {
+        {user.links.map((link, index) => {
           return (
             <Button asChild variant={"secondary"} key={index}>
               <Link href={link.url} target="_blank">
