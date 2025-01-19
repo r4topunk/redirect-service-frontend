@@ -1,20 +1,36 @@
-import { erc1155MintEvents } from "@/lib/thirdweb/server";
-import { NextResponse } from "next/server";
+import { erc1155MintTo, getContract } from "@/lib/thirdweb/server";
+import { NextRequest, NextResponse } from "next/server";
+import { getOwnedTokenIds } from "thirdweb/extensions/erc1155";
 
-export async function POST() {
+export async function POST(request: NextRequest) {
   try {
-    const r4to = "0x1fd1405aE28ef1855A0d26CE07555Be661405fCb";
+    const { toAddress, tokenId } = await request.json();
+    console.log("Minting NFT to address:", toAddress);
+
     const contractAdress = "0x4D3423981762797Bc0381A6CeFd4D05B8B62bA70";
+    const contract = getContract(contractAdress);
 
-    // const txResult = await erc1155MintTo(contractAdress, r4to, 0);
-    // console.log("Transaction result:", txResult);
+    const ownedTokenIds = await getOwnedTokenIds({
+      contract,
+      address: toAddress,
+    });
 
-    const events = await erc1155MintEvents(contractAdress, 20321213);
-    console.log("Events:", events);
+    console.log("Owned token IDs:", ownedTokenIds);
+    if (
+      ownedTokenIds.some(
+        (token) =>
+          token.tokenId === BigInt(tokenId) && token.balance > BigInt(0)
+      )
+    ) {
+      return NextResponse.json(
+        { message: "User already owns the token" },
+        { status: 400 }
+      );
+    }
 
-    const filteredTxs = events
-      .filter((event) => event.args.to === r4to)
-      .map((event) => event.transactionHash);
+    const txResult = await erc1155MintTo(contractAdress, toAddress, tokenId);
+    console.log("Transaction result:", txResult);
+    // console.log("Owned NFTs:", serializedNFTs);
 
     const error = null;
     if (error) {
@@ -24,12 +40,11 @@ export async function POST() {
         { status: 500 }
       );
     }
-    return NextResponse.json({ filteredTxs }, { status: 200 });
+    return NextResponse.json({ data: null }, { status: 200 });
   } catch (err) {
     console.error("Error parsing request body:", err);
-    return NextResponse.json(
-      { message: "Invalid request body" },
-      { status: 400 }
-    );
+    const message =
+      err instanceof Error ? err.message.replace("\n", " ") : "Invalid request";
+    return NextResponse.json({ message }, { status: 400 });
   }
 }

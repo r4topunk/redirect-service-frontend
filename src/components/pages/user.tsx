@@ -8,8 +8,15 @@ import { FaInstagram, FaTiktok, FaXTwitter } from "react-icons/fa6";
 import ClaimNft from "../claim-nft";
 import { Button } from "../ui/button";
 
-export default function UserPage({ user }: { user: User }) {
+export default function UserPage({
+  user,
+  showClaimButton,
+}: {
+  user: User;
+  showClaimButton: boolean;
+}) {
   const [claimed, setClaimed] = useState(false);
+  const [showClaim, setShowClaim] = useState(showClaimButton);
 
   return (
     <div className="max-w-md mx-auto p-4 space-y-4">
@@ -63,7 +70,14 @@ export default function UserPage({ user }: { user: User }) {
           </Button>
         )}
       </div>
-      <ClaimNft user={user} claimed={claimed} setClaimed={setClaimed} />
+      {showClaim && (
+        <ClaimNft
+          user={user}
+          claimed={claimed}
+          setClaimed={setClaimed}
+          setShowClaim={setShowClaim}
+        />
+      )}
       <div className="flex flex-col gap-3">
         {user.links.map((link, index) => {
           return (

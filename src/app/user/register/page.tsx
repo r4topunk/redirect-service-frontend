@@ -3,7 +3,7 @@ import { SERVICE_URL } from "@/constants";
 import { cookies } from "next/headers";
 import { User } from "../[username]/page";
 
-type AuthResponse = {
+export type AuthResponse = {
   message: string;
   jwt?: {
     uuid: string;

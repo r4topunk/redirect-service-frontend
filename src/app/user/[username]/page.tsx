@@ -1,5 +1,7 @@
 import UserPage from "@/components/pages/user";
+import { SERVICE_URL } from "@/constants";
 import { getUser } from "@/lib/user";
+import { cookies } from "next/headers";
 
 export interface UserLink {
   url: string;
@@ -34,5 +36,16 @@ export default async function Page({
 
   if (!user?.links) user.links = [];
 
-  return <UserPage user={user} />;
+  const cookieStore = await cookies();
+  const poapAuth = cookieStore.get("x-poap-auth");
+
+  const req = await fetch(`${SERVICE_URL}/auth/user`, {
+    headers: {
+      Authorization: poapAuth?.value || "",
+    },
+  });
+
+  const showClaimButton = req.ok;
+
+  return <UserPage user={user} showClaimButton={showClaimButton} />;
 }
