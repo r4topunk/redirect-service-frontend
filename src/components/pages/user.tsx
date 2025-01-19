@@ -66,7 +66,7 @@ export default function UserPage({ user }: { user: User }) {
       {!claimed ? (
         <Button
           onClick={() => setClaimed(true)}
-          className=" w-full bg-orange-100 text-orange-500 border border-orange-500 px-4 py-2 rounded-md mx-auto font-semibold flex items-center justify-center gap-1 leading-none hover:bg-orange-100 hover:scale-[1.015] transition-transform"
+          className=" w-full bg-orange-100 dark:bg-orange-500 dark:text-white text-orange-500 border border-orange-500 px-4 py-2 rounded-md mx-auto font-semibold flex items-center justify-center gap-1 leading-none hover:bg-orange-100 hover:scale-[1.015] transition-transform"
         >
           {/* <Sparkles className="inline-block w-4 h-4" /> */}
           <PietLogo className="inline-block w-4 h-4" />
