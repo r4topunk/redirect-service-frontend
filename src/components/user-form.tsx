@@ -3,6 +3,7 @@
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -10,29 +11,30 @@ import {
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { undefined, z } from "zod";
 import { ConnectButton } from "./connect-button";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+import { PrefixedInput } from "./ui/prefixed-input";
 
 export const formSchema = z.object({
   username: z
     .string()
-    .min(4, { message: "Username must be at least 2 characters." })
-    .max(12, { message: "Username must be at most 12 characters." }),
+    .min(4, { message: "Username must be at least 2 characters" })
+    .max(12, { message: "Username must be at most 12 characters" }),
   address: z.string(),
   nfc: z.string(),
-  email: z.string().email({ message: "Invalid email address." }),
-  avatar: z.instanceof(File),
-  bio: z.string().nonempty({ message: "Bio is required." }),
+  email: z.string().email({ message: "Invalid email address" }),
+  avatar: z.instanceof(File, { message: "Invalid avatar" }),
+  bio: z.string().nonempty({ message: "Role is required" }),
   links: z.object({
     items: z
       .array(
         z.object({
-          url: z.string().url({ message: "Invalid link." }),
+          url: z.string().url({ message: "Invalid link" }),
           description: z
             .string()
-            .nonempty({ message: "Description is required." }),
+            .nonempty({ message: "Description is required" }),
         })
       )
       .optional(),
@@ -206,8 +208,11 @@ function UserForm({ user: defaultUser }: UserFormProps) {
         </div>
         <div className="flex flex-col gap-3 border border-input rounded-lg p-4">
           <FormLabel className="text-lg font-semibold mb-[-4px]">
-            Links
+            Social
           </FormLabel>
+          <FormDescription>
+            Add the username for your social media profiles.
+          </FormDescription>
           <FormField
             control={form.control}
             name="links.x"
@@ -215,11 +220,12 @@ function UserForm({ user: defaultUser }: UserFormProps) {
               <FormItem className="space-y-1">
                 <FormLabel className="font-medium">X</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="https://x.com/"
-                    type="url"
+                  <PrefixedInput
+                    prefix="@"
+                    placeholder="username"
+                    type="text"
                     {...field}
-                    value={field.value ?? ""}
+                    value={typeof field.value === "string" ? field.value : ""}
                   />
                 </FormControl>
                 <FormMessage />
@@ -233,11 +239,12 @@ function UserForm({ user: defaultUser }: UserFormProps) {
               <FormItem className="space-y-1">
                 <FormLabel className="font-medium">Instagram</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="https://instagram.com/"
-                    type="url"
+                  <PrefixedInput
+                    prefix="@"
+                    placeholder="username"
+                    type="text"
                     {...field}
-                    value={field.value ?? ""}
+                    value={typeof field.value === "string" ? field.value : ""}
                   />
                 </FormControl>
                 <FormMessage />
@@ -251,11 +258,12 @@ function UserForm({ user: defaultUser }: UserFormProps) {
               <FormItem className="space-y-1">
                 <FormLabel className="font-medium">TikTok</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="https://tiktok.com/"
-                    type="url"
+                  <PrefixedInput
+                    prefix="@"
+                    placeholder="username"
+                    type="text"
                     {...field}
-                    value={field.value ?? ""}
+                    value={typeof field.value === "string" ? field.value : ""}
                   />
                 </FormControl>
                 <FormMessage />
@@ -273,7 +281,7 @@ function UserForm({ user: defaultUser }: UserFormProps) {
                     placeholder="https://shop.com/"
                     type="url"
                     {...field}
-                    value={field.value ?? ""}
+                    value={typeof field.value === "string" ? field.value : ""}
                   />
                 </FormControl>
                 <FormMessage />
@@ -291,7 +299,7 @@ function UserForm({ user: defaultUser }: UserFormProps) {
                     placeholder="contact@mail.com"
                     type="email"
                     {...field}
-                    value={field.value ?? ""}
+                    value={typeof field.value === "string" ? field.value : ""}
                   />
                 </FormControl>
                 <FormMessage />
@@ -304,7 +312,7 @@ function UserForm({ user: defaultUser }: UserFormProps) {
           className="w-full"
           disabled={form.formState.isSubmitting}
         >
-          {form.formState.isSubmitting ? "Submitting..." : "Submit"}
+          {form.formState.isSubmitting ? "Submitting.." : "Submit"}
         </Button>
       </form>
     </Form>
