@@ -10,10 +10,17 @@ interface ClaimNftProps {
   user: User;
   claimed: boolean;
   setClaimed: React.Dispatch<React.SetStateAction<boolean>>;
+  showClaim: boolean;
   setShowClaim: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function ClaimNft({ user, claimed, setClaimed, setShowClaim }: ClaimNftProps) {
+function ClaimNft({
+  user,
+  claimed,
+  setClaimed,
+  showClaim,
+  setShowClaim,
+}: ClaimNftProps) {
   const tokenId = 0;
   const [loading, setLoading] = useState(false);
 
@@ -29,8 +36,8 @@ function ClaimNft({ user, claimed, setClaimed, setShowClaim }: ClaimNftProps) {
           const { userOwnsToken } = await response.json();
           if (userOwnsToken) {
             setClaimed(true);
-            setShowClaim(true);
           }
+          setShowClaim(true);
         }
       } catch (error) {
         console.error("Error checking NFT ownership:", error);
@@ -60,6 +67,8 @@ function ClaimNft({ user, claimed, setClaimed, setShowClaim }: ClaimNftProps) {
       }
     }
   }
+
+  if (!showClaim) return null;
 
   return !claimed ? (
     <Button

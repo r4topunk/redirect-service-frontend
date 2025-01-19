@@ -70,14 +70,13 @@ export default function UserPage({
           </Button>
         )}
       </div>
-      {showClaim && (
-        <ClaimNft
-          user={user}
-          claimed={claimed}
-          setClaimed={setClaimed}
-          setShowClaim={setShowClaim}
-        />
-      )}
+      <ClaimNft
+        user={user}
+        claimed={claimed}
+        setClaimed={setClaimed}
+        showClaim={showClaim}
+        setShowClaim={setShowClaim}
+      />
       <div className="flex flex-col gap-3">
         {user.links.map((link, index) => {
           return (
