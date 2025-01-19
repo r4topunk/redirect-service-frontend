@@ -17,8 +17,11 @@ export default async function Page({ params }: PageProps) {
   const setCookie = headersList.get("set-cookie");
   console.log("setCookie", setCookie);
 
-  console.log({ cookieStore });
-  console.log({ headersList });
+  const allHeaders = headersList.entries();
+  console.log("allHeaders", allHeaders);
+
+  const allCookies = cookieStore.getAll();
+  console.log("allCookies", allCookies);
 
   const req = await fetch(`${SERVICE_URL}/redirects`, {
     headers: {
