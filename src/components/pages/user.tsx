@@ -1,11 +1,11 @@
 "use client";
 
 import { User } from "@/app/user/[username]/page";
-import { Handshake, Mail, Store } from "lucide-react";
+import { Mail, Store } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { FaInstagram, FaTiktok, FaXTwitter } from "react-icons/fa6";
-import PietLogo from "../icons/piet";
+import ClaimNft from "../claim-nft";
 import { Button } from "../ui/button";
 
 export default function UserPage({ user }: { user: User }) {
@@ -63,24 +63,7 @@ export default function UserPage({ user }: { user: User }) {
           </Button>
         )}
       </div>
-      {!claimed ? (
-        <Button
-          onClick={() => setClaimed(true)}
-          className=" w-full bg-orange-100 dark:bg-orange-500 dark:text-white text-orange-500 border border-orange-500 px-4 py-2 rounded-md mx-auto font-semibold flex items-center justify-center gap-1 leading-none hover:bg-orange-100 hover:scale-[1.015] transition-transform"
-        >
-          {/* <Sparkles className="inline-block w-4 h-4" /> */}
-          <PietLogo className="inline-block w-4 h-4" />
-          Claim NFT
-        </Button>
-      ) : (
-        <Button
-          onClick={() => setClaimed(true)}
-          className="w-full bg-orange-100 text-orange-500 dark:bg-orange-500 dark:text-white hover:bg-orange-100 border-none px-4 py-2 rounded-md mx-auto font-medium flex items-center justify-center gap-1 leading-none"
-        >
-          <Handshake strokeWidth={1.5} />
-          You met @{user.username}
-        </Button>
-      )}
+      <ClaimNft user={user} claimed={claimed} setClaimed={setClaimed} />
       <div className="flex flex-col gap-3">
         {user.links.map((link, index) => {
           return (
