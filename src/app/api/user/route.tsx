@@ -1,4 +1,4 @@
-import { Links } from "@/app/user/[username]/page";
+import { UserFormData } from "@/components/user-form";
 import { getStorageUrl, supabase } from "@/lib/supabase";
 import { createUser } from "@/lib/user";
 import { NextResponse } from "next/server";
@@ -29,11 +29,16 @@ export async function PUT(request: Request) {
       avatar = getStorageUrl(fileName);
     }
 
-    const address = formData.get("address") as string;
-    const nfc = formData.get("nfc") as string;
-    const email = formData.get("email") as string;
-    const bio = formData.get("bio") as string;
-    const links = formData.get("links");
+    const address = formData.get("address");
+    const nfc = formData.get("nfc");
+    const email = formData.get("email");
+    const bio = formData.get("bio");
+    const x = formData.get("x");
+    const instagram = formData.get("instagram");
+    const tiktok = formData.get("tiktok");
+    const shop = formData.get("shop");
+    const contact_email = formData.get("contact_email");
+    // const links = formData.get("links");
 
     if (!username || !address || !nfc || !email || !bio || !avatar) {
       return NextResponse.json(
@@ -42,15 +47,20 @@ export async function PUT(request: Request) {
       );
     }
 
-    const user = {
-      username: username as string,
-      address: address as string,
-      nfc: nfc as string,
-      email: email as string,
-      bio: bio as string,
-      avatar: avatar,
-      links: links ? (JSON.parse(links.toString()) as Links) : {},
+    const user: UserFormData = {
+      username: username.toString(),
+      address: address.toString(),
+      nfc: nfc.toString(),
+      email: email.toString(),
+      bio: bio.toString(),
+      avatar: avatar.toString(),
     };
+
+    if (x) user.x = x.toString();
+    if (instagram) user.instagram = instagram.toString();
+    if (tiktok) user.tiktok = tiktok.toString();
+    if (shop) user.shop = shop.toString();
+    if (contact_email) user.contact_email = contact_email.toString();
 
     const { data, error } = await createUser(user);
 

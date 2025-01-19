@@ -1,7 +1,7 @@
-import { User } from "@/app/user/[username]/page";
+import { UserFormData } from "@/components/user-form";
 import { SERVICE_API_KEY, SERVICE_URL } from "@/constants";
 
-export async function createUser(user: User) {
+export async function createUser(user: UserFormData) {
   try {
     const res = await fetch(`${SERVICE_URL}/user`, {
       method: "POST",

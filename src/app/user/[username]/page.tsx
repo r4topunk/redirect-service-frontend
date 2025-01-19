@@ -1,6 +1,6 @@
 import UserPage from "@/components/pages/user";
 
-interface UserLink {
+export interface UserLink {
   url: string;
   description: string;
 }

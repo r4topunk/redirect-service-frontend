@@ -10,9 +10,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { User } from "lucide-react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { undefined, z } from "zod";
+import { z } from "zod";
 import { ConnectButton } from "./connect-button";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { PrefixedInput } from "./ui/prefixed-input";
@@ -27,26 +30,11 @@ export const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
   avatar: z.instanceof(File, { message: "Invalid avatar" }).or(z.string()),
   bio: z.string().nonempty({ message: "Role is required" }),
-  x: z
-    .string()
-    .optional()
-    .transform((val) => (val === "" ? undefined : val)),
-  instagram: z
-    .string()
-    .optional()
-    .transform((val) => (val === "" ? undefined : val)),
-  tiktok: z
-    .string()
-    .optional()
-    .transform((val) => (val === "" ? undefined : val)),
-  shop: z
-    .string()
-    .optional()
-    .transform((val) => (val === "" ? undefined : val)),
-  contact_email: z
-    .string()
-    .optional()
-    .transform((val) => (val === "" ? undefined : val)),
+  x: z.string().or(z.undefined()),
+  instagram: z.string().optional(),
+  tiktok: z.string().optional(),
+  shop: z.string().optional(),
+  contact_email: z.string().optional(),
   links: z
     .array(
       z.object({
@@ -83,15 +71,42 @@ function UserForm({ user: defaultUser }: UserFormProps) {
     },
   });
 
-  async function onSubmit(values: UserFormData) {
-    console.log(values);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
 
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file) {
+      form.setValue("avatar", file);
+      const reader = new FileReader();
+      reader.onload = (event) =>
+        setAvatarPreview(event.target?.result as string);
+      reader.readAsDataURL(file);
+    } else {
+      setAvatarPreview(null);
+    }
+  }
+
+  async function onSubmit(values: UserFormData) {
     const formData = new FormData();
     formData.append("username", values.username);
     formData.append("address", values.address);
     formData.append("nfc", values.nfc);
     formData.append("email", values.email);
     formData.append("bio", values.bio);
+    console.log("x", values.x);
+    if (values.x) formData.append("x", values.x);
+    if (typeof values.instagram === "string") {
+      formData.append("instagram", values.instagram);
+    }
+    if (typeof values.tiktok === "string") {
+      formData.append("tiktok", values.tiktok);
+    }
+    if (typeof values.shop === "string") {
+      formData.append("shop", values.shop);
+    }
+    if (typeof values.contact_email === "string") {
+      formData.append("contact_email", values.contact_email);
+    }
     if (values.avatar) formData.append("avatar", values.avatar);
     formData.append("links", JSON.stringify(values.links));
 
@@ -100,6 +115,12 @@ function UserForm({ user: defaultUser }: UserFormProps) {
       body: formData,
     });
   }
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleAvatarClick = () => {
+    fileInputRef.current?.click();
+  };
 
   return (
     <Form {...form}>
@@ -122,34 +143,45 @@ function UserForm({ user: defaultUser }: UserFormProps) {
           />
           <FormField
             control={form.control}
+            name="avatar"
+            render={() => (
+              <FormItem className="space-y-1">
+                <FormLabel className="font-medium">Avatar</FormLabel>
+                <FormControl className={"hidden"}>
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    ref={fileInputRef}
+                  />
+                </FormControl>
+                <FormDescription className="flex items-center gap-2 cursor-pointer">
+                  <Avatar className="w-16 h-16" onClick={handleAvatarClick}>
+                    <AvatarImage
+                      src={avatarPreview || ""}
+                      className="object-cover"
+                    />
+                    <AvatarFallback>
+                      <User
+                        strokeWidth={1.4}
+                        size={24}
+                        className="text-muted-foreground"
+                      />
+                    </AvatarFallback>
+                  </Avatar>
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
             name="username"
             render={({ field }) => (
               <FormItem className="space-y-1">
                 <FormLabel className="font-medium">Username</FormLabel>
                 <FormControl>
                   <Input placeholder="Username" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="avatar"
-            render={({ field }) => (
-              <FormItem className="space-y-1">
-                <FormLabel className="font-medium">Avatar</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Avatar URL"
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0];
-                      field.onChange(file);
-                    }}
-                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
