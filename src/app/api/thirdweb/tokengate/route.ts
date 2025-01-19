@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
     console.log("Tokengating NFT to address:", toAddress);
     const cookies = request.cookies;
 
-    const poapJwt = cookies.get("poap-jwt");
+    const poapJwt = cookies.get("x-poap-auth");
     const req = await fetch(`${SERVICE_URL}/auth/user`, {
       headers: {
         Authorization: poapJwt?.value || "",
