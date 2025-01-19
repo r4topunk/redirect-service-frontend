@@ -1,9 +1,11 @@
 import { CHAIN } from "@/constants";
 import {
   createThirdwebClient,
-  getContract,
+  getContractEvents,
   prepareContractCall,
+  prepareEvent,
   sendTransaction,
+  getContract as twGetContract,
 } from "thirdweb";
 import { privateKeyToAccount } from "thirdweb/wallets";
 
@@ -18,6 +20,14 @@ const personalAccount = privateKeyToAccount({
 
 console.log("Personal account address:", personalAccount.address);
 
+export const getContract = (address: string) => {
+  return twGetContract({
+    client: twClient,
+    chain: CHAIN,
+    address,
+  });
+};
+
 export async function erc1155MintTo(
   contractAdress: string,
   to: string,
@@ -25,11 +35,7 @@ export async function erc1155MintTo(
   amount: number = 1,
   uri: string = ""
 ) {
-  const contract = getContract({
-    client: twClient,
-    chain: CHAIN,
-    address: contractAdress,
-  });
+  const contract = getContract(contractAdress);
 
   const tx = prepareContractCall({
     contract,
@@ -44,4 +50,24 @@ export async function erc1155MintTo(
   });
 
   return txResult;
+}
+
+export async function erc1155MintEvents(
+  contractAdress: string,
+  fromBlock: number
+) {
+  const myEvent = prepareEvent({
+    signature:
+      "event TransferSingle(address indexed operator, address indexed from, address indexed to, uint256 id, uint256 value)",
+  });
+
+  const contract = getContract(contractAdress);
+
+  const events = await getContractEvents({
+    contract,
+    fromBlock: BigInt(fromBlock),
+    events: [myEvent],
+  });
+
+  return events;
 }
