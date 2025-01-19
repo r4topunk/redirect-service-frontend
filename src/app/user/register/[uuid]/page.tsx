@@ -1,4 +1,6 @@
 import UserRegisterPage from "@/components/pages/user-register";
+import { SERVICE_URL } from "@/constants";
+import { cookies } from "next/headers";
 
 interface PageProps {
   params: Promise<{ uuid: string }>;
@@ -6,6 +8,21 @@ interface PageProps {
 
 export default async function Page({ params }: PageProps) {
   const uuid = (await params).uuid;
+  const cookieStore = await cookies();
+  const nfcAuth = cookieStore.get("x-nfc-auth");
+
+  console.log("nfcAuth", nfcAuth);
+
+  const req = await fetch(`${SERVICE_URL}/redirects`, {
+    headers: {
+      Authorization: nfcAuth?.value || "",
+    },
+  });
+
+  console.log("req", req.ok);
+
+  const json = await req.json();
+  console.log("json", json);
 
   if (!uuid) {
     return <div>User not found</div>;
