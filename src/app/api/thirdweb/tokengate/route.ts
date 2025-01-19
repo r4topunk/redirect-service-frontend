@@ -19,6 +19,7 @@ export async function POST(request: NextRequest) {
     const json: AuthResponse = await req.json();
     const poap = json.jwt?.poap;
     if (!poapJwt || !req.ok || !poap) {
+      console.log(poapJwt, json, poap);
       return NextResponse.json(
         { message: "User is not authenticated" },
         { status: 401 }
