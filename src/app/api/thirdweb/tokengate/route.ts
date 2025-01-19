@@ -8,8 +8,14 @@ export async function POST(request: NextRequest) {
   try {
     const { toAddress } = await request.json();
     console.log("Tokengating NFT to address:", toAddress);
-    const cookies = request.cookies;
+    if (!toAddress) {
+      return NextResponse.json(
+        { message: "Missing required field 'toAddress'" },
+        { status: 400 }
+      );
+    }
 
+    const cookies = request.cookies;
     const poapJwt = cookies.get("x-poap-auth");
     const req = await fetch(`${SERVICE_URL}/auth/user`, {
       headers: {
