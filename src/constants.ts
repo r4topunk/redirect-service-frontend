@@ -3,5 +3,4 @@ export const SUPABASE_SERVICE_ROLE_KEY =
   process.env.SUPABASE_SERVICE_ROLE_KEY || "";
 
 export const SERVICE_API_KEY = process.env.SERVICE_API_KEY!;
-// export const SERVICE_URL = "https://redirect.ss-tm.org";
-export const SERVICE_URL = "http://localhost:3000";
+export const SERVICE_URL = process.env.SERVICE_URL!;
