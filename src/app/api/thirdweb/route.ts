@@ -1,4 +1,4 @@
-import { erc1155MintTo } from "@/lib/thirdweb";
+import { erc1155MintTo } from "@/lib/thirdweb/server";
 import { NextResponse } from "next/server";
 
 export async function POST() {

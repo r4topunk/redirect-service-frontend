@@ -1,6 +1,6 @@
 "use client";
 
-import { twClient } from "@/lib/thirdweb";
+import { twClient } from "@/lib/thirdweb/client";
 import { useActiveAccount, useProfiles } from "thirdweb/react";
 import { ConnectButton } from "../connect-button";
 import UserForm from "../user-form";

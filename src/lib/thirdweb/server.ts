@@ -1,28 +1,18 @@
+import { CHAIN } from "@/constants";
 import {
   createThirdwebClient,
   getContract,
   prepareContractCall,
   sendTransaction,
 } from "thirdweb";
-import { optimismSepolia } from "thirdweb/chains";
 import { privateKeyToAccount } from "thirdweb/wallets";
 
-if (!process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID) {
-  throw new Error(
-    "NEXT_PUBLIC_THIRDWEB_CLIENT_ID environment variable is required."
-  );
-}
-
 export const twClient = createThirdwebClient({
-  clientId: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID!,
-});
-
-export const twSecretClient = createThirdwebClient({
   secretKey: process.env.THIRDWEB_SECRET_KEY!,
 });
 
 const personalAccount = privateKeyToAccount({
-  client: twSecretClient,
+  client: twClient,
   privateKey: process.env.ADMIN_PRIVATE_KEY!,
 });
 
@@ -55,5 +45,3 @@ export async function erc1155MintTo(
 
   return txResult;
 }
-
-export const CHAIN = optimismSepolia;

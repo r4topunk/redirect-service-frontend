@@ -1,6 +1,7 @@
 "use client";
 
-import { CHAIN, twClient } from "@/lib/thirdweb";
+import { CHAIN } from "@/constants";
+import { twClient } from "@/lib/thirdweb/client";
 import { ConnectButton as ThirdWebConnectButton } from "thirdweb/react";
 import { inAppWallet } from "thirdweb/wallets";
 

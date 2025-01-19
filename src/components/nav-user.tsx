@@ -20,13 +20,14 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { formatAddress } from "@/lib/ethereum";
-import { CHAIN, twClient } from "@/lib/thirdweb";
+import { twClient } from "@/lib/thirdweb/client";
 import {
   useActiveAccount,
   useActiveWallet,
   useDisconnect,
   useWalletBalance,
 } from "thirdweb/react";
+import { CHAIN } from "@/constants";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
