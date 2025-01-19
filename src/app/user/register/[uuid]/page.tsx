@@ -1,6 +1,6 @@
 import UserRegisterPage from "@/components/pages/user-register";
 import { SERVICE_URL } from "@/constants";
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 
 interface PageProps {
   params: Promise<{ uuid: string }>;
@@ -11,25 +11,17 @@ export default async function Page({ params }: PageProps) {
 
   const cookieStore = await cookies();
   const nfcAuth = cookieStore.get("x-nfc-auth");
-  console.log("nfcAuth", nfcAuth);
 
-  const headersList = await headers();
-  const setCookie = headersList.get("set-cookie");
-  console.log("setCookie", setCookie);
-
-  const allHeaders = headersList.entries();
-  console.log("allHeaders", allHeaders);
-
-  const allCookies = cookieStore.getAll();
-  console.log("allCookies", allCookies);
-
-  const req = await fetch(`${SERVICE_URL}/redirects`, {
+  const req = await fetch(`${SERVICE_URL}/auth`, {
     headers: {
       Authorization: nfcAuth?.value || "",
     },
   });
 
   console.log("req", req.ok);
+  if (!req.ok) {
+    return <div>Unauthorized</div>;
+  }
 
   const json = await req.json();
   console.log("json", json);
