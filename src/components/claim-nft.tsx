@@ -33,7 +33,10 @@ function ClaimNft({
       try {
         const response = await fetch("/api/thirdweb/tokengate", {
           method: "POST",
-          body: JSON.stringify({ toAddress: activeAccount?.address }),
+          body: JSON.stringify({
+            toAddress: activeAccount?.address,
+            uuid: user.nfc,
+          }),
         });
         if (response.ok) {
           const { userOwnsToken } = await response.json();
@@ -42,10 +45,9 @@ function ClaimNft({
           }
           setShowClaim(true);
         }
+        setLoading(false);
       } catch (error) {
         console.error("Error checking NFT ownership:", error);
-      } finally {
-        setLoading(false);
       }
     })();
   }, [activeAccount?.address]);
