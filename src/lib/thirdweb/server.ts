@@ -18,8 +18,6 @@ const personalAccount = privateKeyToAccount({
   privateKey: process.env.ADMIN_PRIVATE_KEY!,
 });
 
-console.log("Personal account address:", personalAccount.address);
-
 export const getContract = (address: string) => {
   return twGetContract({
     client: twClient,

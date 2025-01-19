@@ -3,9 +3,9 @@
 import { User } from "@/app/user/[username]/page";
 import { Handshake } from "lucide-react";
 import React, { useEffect, useState } from "react";
+import { useActiveAccount } from "thirdweb/react";
 import PietLogo from "./icons/piet";
 import { Button } from "./ui/button";
-import { useActiveAccount } from "thirdweb/react";
 
 interface ClaimNftProps {
   user: User;
@@ -22,17 +22,18 @@ function ClaimNft({
   showClaim,
   setShowClaim,
 }: ClaimNftProps) {
-  const tokenId = 0;
   const [loading, setLoading] = useState(false);
   const activeAccount = useActiveAccount();
+  console.log("User logged address:", activeAccount?.address);
 
   useEffect(() => {
     setLoading(true);
+    if (!activeAccount?.address) return;
     (async () => {
       try {
         const response = await fetch("/api/thirdweb/tokengate", {
           method: "POST",
-          body: JSON.stringify({ toAddress: activeAccount?.address, tokenId }),
+          body: JSON.stringify({ toAddress: activeAccount?.address }),
         });
         if (response.ok) {
           const { userOwnsToken } = await response.json();
@@ -47,7 +48,7 @@ function ClaimNft({
         setLoading(false);
       }
     })();
-  }, []);
+  }, [activeAccount?.address]);
 
   async function handleClaim() {
     if (!claimed) {
@@ -55,7 +56,7 @@ function ClaimNft({
       try {
         const response = await fetch("/api/thirdweb", {
           method: "POST",
-          body: JSON.stringify({ toAddress: activeAccount?.address, tokenId }),
+          body: JSON.stringify({ toAddress: activeAccount?.address }),
         });
         if (!response.ok) {
           console.error("Failed to claim NFT", response);
