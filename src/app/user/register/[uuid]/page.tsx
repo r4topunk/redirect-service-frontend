@@ -1,6 +1,6 @@
 import UserRegisterPage from "@/components/pages/user-register";
 import { SERVICE_URL } from "@/constants";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 
 interface PageProps {
   params: Promise<{ uuid: string }>;
@@ -8,10 +8,17 @@ interface PageProps {
 
 export default async function Page({ params }: PageProps) {
   const uuid = (await params).uuid;
+
   const cookieStore = await cookies();
   const nfcAuth = cookieStore.get("x-nfc-auth");
-
   console.log("nfcAuth", nfcAuth);
+
+  const headersList = await headers();
+  const setCookie = headersList.get("set-cookie");
+  console.log("setCookie", setCookie);
+
+  console.log({ cookieStore });
+  console.log({ headersList });
 
   const req = await fetch(`${SERVICE_URL}/redirects`, {
     headers: {
