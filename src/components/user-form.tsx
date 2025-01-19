@@ -14,7 +14,6 @@ import { User } from "lucide-react";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { ConnectButton } from "./connect-button";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -124,7 +123,6 @@ function UserForm({ user: defaultUser }: UserFormProps) {
 
   return (
     <Form {...form}>
-      <ConnectButton />
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <div className="flex flex-col gap-3 border border-input rounded-lg p-4">
           <FormLabel className="text-lg font-semibold mb-[-4px]">

@@ -17,7 +17,11 @@ function UserRegisterPage({ uuid }: UserRegisterPageProps) {
   const userEmail = profiles?.[0].details.email;
 
   if (!userAdress || !userEmail) {
-    return <ConnectButton />;
+    return (
+      <div className="flex justify-center items-center w-full h-[100dvh]">
+        <ConnectButton />
+      </div>
+    );
   }
 
   return (
