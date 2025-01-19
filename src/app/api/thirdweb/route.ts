@@ -2,11 +2,9 @@ import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
   try {
-    const res = await request.json();
-    console.log(res);
-
     const data = null;
     const error = null;
+
     if (error) {
       console.error("Failed to create route:", error);
       return NextResponse.json(

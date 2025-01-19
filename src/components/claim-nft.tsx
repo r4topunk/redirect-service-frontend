@@ -1,10 +1,10 @@
 "use client";
 
-import React from "react";
-import { Button } from "./ui/button";
-import PietLogo from "./icons/piet";
-import { Handshake } from "lucide-react";
 import { User } from "@/app/user/[username]/page";
+import { Handshake } from "lucide-react";
+import React from "react";
+import PietLogo from "./icons/piet";
+import { Button } from "./ui/button";
 
 interface ClaimNftProps {
   user: User;
@@ -13,7 +13,13 @@ interface ClaimNftProps {
 }
 
 function ClaimNft({ user, claimed, setClaimed }: ClaimNftProps) {
-  function handleClaim() {
+  async function handleClaim() {
+    const response = await fetch("/api/thirdweb", {
+      method: "POST",
+      body: JSON.stringify({ address: user.address }),
+    });
+    const data = await response.json();
+    console.log({ data });
     setClaimed((claimed) => !claimed);
   }
 
