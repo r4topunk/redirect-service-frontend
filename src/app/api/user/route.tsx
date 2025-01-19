@@ -10,23 +10,28 @@ export async function PUT(request: Request) {
     const avatarFile = formData.get("avatar");
     let avatar: string | null = null;
 
-    if (avatarFile && avatarFile instanceof File) {
-      const fileName = `avatarFile_${username}.${avatarFile.name
-        .split(".")
-        .pop()}`;
-      const { error } = await supabase.storage
-        .from("id_images")
-        .upload(fileName, avatarFile, {
-          upsert: true,
-        });
-      if (error) {
-        console.error("Failed to upload avatarFile:", error);
-        return NextResponse.json(
-          { message: "Failed to upload avatarFile" },
-          { status: 500 }
-        );
+    if (avatarFile) {
+      if (avatarFile instanceof File) {
+        const fileName = `avatarFile_${username}.${avatarFile.name
+          .split(".")
+          .pop()}`;
+        const { data, error } = await supabase.storage
+          .from("id_images")
+          .upload(fileName, avatarFile, {
+            upsert: true,
+          });
+        console.log(data, error);
+        if (error) {
+          console.error("Failed to upload avatarFile:", error);
+          return NextResponse.json(
+            { message: "Failed to upload avatarFile" },
+            { status: 500 }
+          );
+        }
+        avatar = getStorageUrl(fileName);
+      } else if (typeof avatarFile === "string") {
+        avatar = avatarFile;
       }
-      avatar = getStorageUrl(fileName);
     }
 
     const address = formData.get("address");
@@ -41,6 +46,7 @@ export async function PUT(request: Request) {
     // const links = formData.get("links");
 
     if (!username || !address || !nfc || !email || !bio || !avatar) {
+      console.log(formData);
       return NextResponse.json(
         { message: "All fields are required" },
         { status: 400 }

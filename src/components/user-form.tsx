@@ -11,7 +11,8 @@ import {
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "lucide-react";
-import { useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
@@ -53,11 +54,13 @@ interface UserFormProps {
 }
 
 function UserForm({ user: defaultUser }: UserFormProps) {
+  const router = useRouter();
   const form = useForm<UserFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: defaultUser?.username ?? "",
       address: defaultUser?.address ?? "",
+      avatar: defaultUser?.avatar ?? "",
       nfc: defaultUser?.nfc ?? "",
       email: defaultUser?.email ?? "",
       bio: defaultUser?.bio ?? "",
@@ -71,6 +74,12 @@ function UserForm({ user: defaultUser }: UserFormProps) {
   });
 
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof defaultUser?.avatar === "string" && defaultUser.avatar) {
+      setAvatarPreview(defaultUser.avatar);
+    }
+  }, [defaultUser?.avatar]);
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -113,6 +122,8 @@ function UserForm({ user: defaultUser }: UserFormProps) {
       method: "PUT",
       body: formData,
     });
+
+    router.push(`/user/${values.username}`);
   }
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -336,7 +347,7 @@ function UserForm({ user: defaultUser }: UserFormProps) {
           className="w-full"
           disabled={form.formState.isSubmitting}
         >
-          {form.formState.isSubmitting ? "Submitting.." : "Submit"}
+          {form.formState.isSubmitting ? "Saving..." : "Confirm"}
         </Button>
       </form>
     </Form>

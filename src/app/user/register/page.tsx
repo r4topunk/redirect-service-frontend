@@ -59,6 +59,8 @@ export default async function Page() {
   const user = json.user || null;
   const uuid = json.jwt.uuid;
 
+  console.log({ user, uuid });
+
   // const user = await getUserByNfc(uuid);
 
   return (
