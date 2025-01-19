@@ -4,14 +4,19 @@ import { twClient } from "@/lib/thirdweb/client";
 import { useActiveAccount, useProfiles } from "thirdweb/react";
 import { ConnectButton } from "../connect-button";
 import UserForm from "../user-form";
+import { User } from "@/app/user/[username]/page";
+import { useRouter } from "next/navigation";
+import { r4to } from "@/constants";
 
 interface UserRegisterPageProps {
   uuid: string;
+  user: User | null;
 }
 
-function UserRegisterPage({ uuid }: UserRegisterPageProps) {
+function UserRegisterPage({ uuid, user }: UserRegisterPageProps) {
   const { data: profiles } = useProfiles({ client: twClient });
   const account = useActiveAccount();
+  const router = useRouter();
 
   const userAdress = account?.address;
   const userEmail = profiles?.[0].details.email;
@@ -24,13 +29,23 @@ function UserRegisterPage({ uuid }: UserRegisterPageProps) {
     );
   }
 
+  if (user && user.address !== userAdress) {
+    router.push(`/user/${user.username}`);
+  }
+
+  if (userAdress === r4to) {
+    console.log({ user, uuid });
+  }
+
   return (
     <UserForm
-      user={{
-        address: userAdress,
-        email: userEmail,
-        nfc: uuid,
-      }}
+      user={
+        user || {
+          address: userAdress,
+          email: userEmail,
+          nfc: uuid,
+        }
+      }
     />
   );
 }

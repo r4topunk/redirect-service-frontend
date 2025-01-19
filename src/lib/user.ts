@@ -40,6 +40,21 @@ export async function getUser(username: string) {
   }
 }
 
+export async function getUserByNfc(uuid: string) {
+  try {
+    const res = await fetch(`${SERVICE_URL}/user/nfc/${uuid}`);
+    if (!res.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const json = await res.json();
+    const user = json?.user;
+    return (user as User) || null;
+  } catch (error) {
+    console.error("Failed to fetch user:", error);
+    return null;
+  }
+}
+
 const users: User[] = [
   {
     username: "test_pedro_and",

@@ -8,3 +8,5 @@ export const SERVICE_API_KEY = process.env.SERVICE_API_KEY!;
 export const SERVICE_URL = process.env.SERVICE_URL!;
 
 export const CHAIN = optimismSepolia;
+
+export const r4to = "0x1fd1405aE28ef1855A0d26CE07555Be661405fCb";
