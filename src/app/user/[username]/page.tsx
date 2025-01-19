@@ -1,4 +1,5 @@
 import UserPage from "@/components/pages/user";
+import { SERVICE_URL } from "@/constants";
 
 export interface UserLink {
   url: string;
@@ -20,13 +21,28 @@ export interface User {
   contact_email?: string;
 }
 
-function getUser(username: string): User | null {
-  return users.find((user) => user.username === username) || null;
+async function getUser(username: string) {
+  if (username === "test_pedro_and") {
+    return users[0];
+  }
+
+  try {
+    const res = await fetch(`${SERVICE_URL}/user/${username}`);
+    if (!res.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const json = await res.json();
+    const user = json?.user;
+    return (user as User) || null;
+  } catch (error) {
+    console.error("Failed to fetch user:", error);
+    return null;
+  }
 }
 
 const users: User[] = [
   {
-    username: "pedro_and",
+    username: "test_pedro_and",
     address: "0xP",
     email: "pedro_and@example.com",
     nfc: "0000-",
@@ -60,11 +76,13 @@ export default async function Page({
 }: {
   params: Promise<{ username: string }>;
 }) {
-  const user = getUser((await params).username);
+  const user = await getUser((await params).username);
 
   if (!user) {
     return <div>User not found</div>;
   }
+
+  if (!user?.links) user.links = [];
 
   return <UserPage user={user} />;
 }
