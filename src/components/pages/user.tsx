@@ -1,7 +1,7 @@
 "use client";
 
 import { User } from "@/app/user/[username]/page";
-import { Mail, Store } from "lucide-react";
+import { Edit, Mail, Store } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { FaInstagram, FaTiktok, FaXTwitter } from "react-icons/fa6";
@@ -99,12 +99,19 @@ export default function UserPage({
         {user.links.map((link, index) => {
           return (
             <Button asChild variant={"secondary"} key={index}>
-              <Link href={link.url} target="_blank">
+              <Link href={link.link} target="_blank">
                 {link.description}
               </Link>
             </Button>
           );
         })}
+        {user.address === account.address && (
+          <Button asChild variant={"default"}>
+            <Link href="/user/links">
+              <Edit /> Edit links
+            </Link>
+          </Button>
+        )}
       </div>
     </div>
   );

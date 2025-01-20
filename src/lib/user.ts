@@ -71,16 +71,19 @@ const users: User[] = [
     contact_email: "mailto:pedro_and@example.com",
     links: [
       {
-        url: "https://piet.com.br",
+        link: "https://piet.com.br",
         description: "Link 1",
+        secret: false,
       },
       {
-        url: "https://piet.com.br",
+        link: "https://piet.com.br",
         description: "Link 2",
+        secret: false,
       },
       {
-        url: "https://piet.com.br",
+        link: "https://piet.com.br",
         description: "Link 3",
+        secret: false,
       },
     ],
   },

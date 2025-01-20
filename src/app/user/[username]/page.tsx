@@ -4,8 +4,9 @@ import { getUser } from "@/lib/user";
 import { cookies } from "next/headers";
 
 export interface UserLink {
-  url: string;
+  link: string;
   description: string;
+  secret: boolean;
 }
 
 export interface User {
@@ -29,6 +30,7 @@ export default async function Page({
   params: Promise<{ username: string }>;
 }) {
   const user = await getUser((await params).username);
+  console.log({ links: user?.links });
 
   if (!user) {
     return <div>User not found</div>;
