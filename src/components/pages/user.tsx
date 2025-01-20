@@ -97,6 +97,9 @@ export default function UserPage({
       />
       <div className="flex flex-col gap-3">
         {user.links.map((link, index) => {
+          if (link.secret && user.address !== account.address && !claimed)
+            return null;
+
           return (
             <Button asChild variant={"secondary"} key={index}>
               <Link href={link.link} target="_blank">
