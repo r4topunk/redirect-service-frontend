@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { ThirdwebProvider } from "thirdweb/react";
 import "./globals.css";
 import AutoConnect from "@/components/thirdweb-autoconnect";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,6 +45,7 @@ export default function RootLayout({
           </ThirdwebProvider>
         </ThemeProvider>
       </body>
+      <GoogleAnalytics gaId="G-L6MC85LNMN" />
     </html>
   );
 }
