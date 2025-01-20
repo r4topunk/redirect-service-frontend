@@ -75,6 +75,27 @@ export function LinkForm() {
     }
   }, [account?.address, form]);
 
+  useEffect(() => {
+    if (account?.address) {
+      async function fetchRedirects() {
+        try {
+          const response = await fetch(
+            `${SERVICE_URL}/user/${account?.address}/redirects`
+          );
+          if (response.ok) {
+            const redirects = await response.json();
+            form.setValue("linkItems", redirects);
+          } else {
+            console.error("Failed to fetch redirects");
+          }
+        } catch (error) {
+          console.error("Error fetching redirects:", error);
+        }
+      }
+      fetchRedirects();
+    }
+  }, [account?.address, form]);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
