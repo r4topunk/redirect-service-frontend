@@ -33,19 +33,23 @@ export async function erc1155MintTo(
   amount: number = 1,
   uri: string = ""
 ) {
+  console.log(`Minting token ${tokenId} to ${to} (amount: ${amount})`);
   const contract = getContract(contractAdress);
+  console.log(`Using contract at address: ${contractAdress}`);
 
   const tx = prepareContractCall({
     contract,
     method:
       "function mintTo(address to, uint256 tokenId, string uri, uint256 amount)",
-    params: [personalAccount.address, BigInt(tokenId), uri, BigInt(amount)],
+    params: [to, BigInt(tokenId), uri, BigInt(amount)],
   });
+  console.log("Transaction prepared");
 
   const txResult = await sendTransaction({
     transaction: tx,
     account: personalAccount,
   });
+  console.log(`Transaction completed with hash: ${txResult.transactionHash}`);
 
   return txResult;
 }

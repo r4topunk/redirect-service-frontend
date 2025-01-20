@@ -6,9 +6,13 @@ export async function POST(request: NextRequest) {
   try {
     const { toAddress } = await request.json();
     console.log("Tokengating NFT to address:", toAddress);
+    console.log("Request payload:", { toAddress });
+
+    console.log("Fetching tokengate data from service...");
     const cookies = request.cookies;
 
     const poapJwt = cookies.get("x-poap-auth");
+    console.log("POAP JWT:", poapJwt?.value);
     const req = await fetch(`${SERVICE_URL}/tokengate`, {
       method: "POST",
       headers: {
@@ -17,7 +21,9 @@ export async function POST(request: NextRequest) {
       },
       body: JSON.stringify({ user_address: toAddress }),
     });
+    console.log("Received response from tokengate service:", req.status);
     const json = await req.json();
+    console.log("Tokengate service response JSON:", json);
     if (!poapJwt || !req.ok) {
       console.log({ poapJwt, json });
       return NextResponse.json(
@@ -26,7 +32,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    console.log("Checking POAP token presence...");
     const poap = json?.poap;
+    console.log("POAP object:", poap);
     if (!poap) {
       return NextResponse.json(
         { message: "User does not have a POAP token" },
@@ -55,10 +63,12 @@ export async function POST(request: NextRequest) {
     //   );
     // }
 
+    console.log("Initiating minting transaction...");
     const txResult = await erc1155MintTo(poap.address, toAddress, poap.tokenId);
     console.log("Transaction result:", txResult);
     // console.log("Owned NFTs:", serializedNFTs);
 
+    console.log("Storing claim with service...");
     const claimResponse = await fetch(`${SERVICE_URL}/claim-nft`, {
       method: "POST",
       headers: {
@@ -72,7 +82,9 @@ export async function POST(request: NextRequest) {
         chain_id: poap.chainId,
       }),
     });
-
+    const claimResponseData = await claimResponse.json();
+    console.log("Claim response data:", claimResponseData);
+    console.log("Claim response status:", claimResponse.status);
     if (!claimResponse.ok) {
       const errorData = await claimResponse.json();
       console.error("Failed to store the claim:", errorData);
@@ -90,6 +102,7 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       );
     }
+    console.log("Finalizing response to the client.");
     return NextResponse.json({ data: null }, { status: 200 });
   } catch (err) {
     console.error("Error parsing request body:", err);
