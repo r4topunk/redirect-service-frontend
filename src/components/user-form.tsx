@@ -38,7 +38,7 @@ export const formSchema = z.object({
   links: z
     .array(
       z.object({
-        url: z.string().url({ message: "Invalid link" }),
+        link: z.string().url({ message: "Invalid link" }),
         description: z
           .string()
           .nonempty({ message: "Description is required" }),
