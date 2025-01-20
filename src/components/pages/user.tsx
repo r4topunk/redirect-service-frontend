@@ -22,16 +22,19 @@ export default function UserPage({
 
   const account = useActiveAccount();
 
-  if (!account?.address) {
-    return (
-      <div className="flex justify-center items-center w-full h-[100dvh]">
-        <ConnectButton />
-      </div>
-    );
-  }
+  // if (!account?.address) {
+  //   return (
+  //     <div className="flex justify-center items-center w-full h-[100dvh]">
+  //       <ConnectButton />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="max-w-md mx-auto p-4 space-y-4">
+      <div className="flex justify-center gap-2">
+        <ConnectButton />
+      </div>
       <div>
         <img
           src={user.avatar}
@@ -97,7 +100,7 @@ export default function UserPage({
       />
       <div className="flex flex-col gap-3">
         {user.links.map((link, index) => {
-          if (link.secret && user.address !== account.address && !claimed)
+          if (link.secret && user.address !== account?.address && !claimed)
             return null;
 
           return (
@@ -108,7 +111,7 @@ export default function UserPage({
             </Button>
           );
         })}
-        {user.address === account.address && (
+        {user.address === account?.address && (
           <Button asChild variant={"default"}>
             <Link href="/user/links">
               <Edit /> Edit links
