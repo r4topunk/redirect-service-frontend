@@ -11,8 +11,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { SERVICE_URL } from "@/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useActiveAccount } from "thirdweb/react";
@@ -20,7 +22,7 @@ import { z } from "zod";
 import { Checkbox } from "./ui/checkbox";
 
 export const linkItemSchema = z.object({
-  url: z.string().url({ message: "Please enter a valid URL" }),
+  link: z.string().url({ message: "Please enter a valid URL" }),
   description: z.string().min(1, { message: "Description is required" }),
   secret: z.boolean().default(false),
 });
@@ -34,12 +36,13 @@ export type LinkFormValues = z.infer<typeof linkFormSchema>;
 
 export function LinkForm() {
   const account = useActiveAccount();
+  const router = useRouter();
 
   const form = useForm<LinkFormValues>({
     resolver: zodResolver(linkFormSchema),
     defaultValues: {
       userAddress: "",
-      linkItems: [{ url: "", description: "", secret: false }],
+      linkItems: [{ link: "", description: "", secret: false }],
     },
   });
 
@@ -48,9 +51,22 @@ export function LinkForm() {
     name: "linkItems",
   });
 
-  function onSubmit(data: LinkFormValues) {
-    console.log(data);
-    // Handle form submission here
+  async function onSubmit(data: LinkFormValues) {
+    const submit = await fetch(
+      `${SERVICE_URL}/user/${account?.address}/redirects`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
+    const json = await submit.json();
+    console.log(json);
+    if (submit.ok) {
+      router.push(`/user/${json.user.username}`);
+    }
   }
 
   useEffect(() => {
@@ -75,7 +91,7 @@ export function LinkForm() {
             >
               <FormField
                 control={form.control}
-                name={`linkItems.${index}.url`}
+                name={`linkItems.${index}.link`}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>URL</FormLabel>
@@ -136,10 +152,13 @@ export function LinkForm() {
           ))}
         </div>
         <div className="flex flex-row justify-between">
-          <Button type="submit">Submit</Button>
+          <Button type="submit" disabled={form.formState.isSubmitting}>
+            {form.formState.isSubmitting ? "Submitting..." : "Submit"}
+          </Button>
           <Button
             variant="outline"
-            onClick={() => append({ url: "", description: "", secret: false })}
+            disabled={form.formState.isSubmitting}
+            onClick={() => append({ link: "", description: "", secret: false })}
           >
             <Plus />
             Add Link
