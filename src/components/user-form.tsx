@@ -42,6 +42,7 @@ export const formSchema = z.object({
         description: z
           .string()
           .nonempty({ message: "Description is required" }),
+        secret: z.boolean().default(false),
       })
     )
     .optional(),
