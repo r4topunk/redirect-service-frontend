@@ -45,6 +45,9 @@ export default async function Page({
     },
   });
   const userAuthenticated = req.ok;
+  const json = await req.json();
+  console.log({ json });
+  console.log({ userAuthenticated });
 
   return <UserPage user={user} showClaimButton={userAuthenticated} />;
 }

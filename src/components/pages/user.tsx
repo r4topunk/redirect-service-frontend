@@ -7,6 +7,8 @@ import { useState } from "react";
 import { FaInstagram, FaTiktok, FaXTwitter } from "react-icons/fa6";
 import ClaimNft from "../claim-nft";
 import { Button } from "../ui/button";
+import { useActiveAccount } from "thirdweb/react";
+import { ConnectButton } from "../connect-button";
 
 export default function UserPage({
   user,
@@ -17,6 +19,16 @@ export default function UserPage({
 }) {
   const [claimed, setClaimed] = useState(false);
   const [showClaim, setShowClaim] = useState(showClaimButton);
+
+  const account = useActiveAccount();
+
+  if (!account?.address) {
+    return (
+      <div className="flex justify-center items-center w-full h-[100dvh]">
+        <ConnectButton />
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-md mx-auto p-4 space-y-4">

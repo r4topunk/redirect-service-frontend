@@ -48,8 +48,8 @@ function ClaimNft({
           const { userOwnsToken } = await response.json();
           if (userOwnsToken) {
             setClaimed(true);
+            setShowClaim(true);
           }
-          setShowClaim(true);
         }
         setLoading(false);
       } catch (error) {
@@ -83,6 +83,8 @@ function ClaimNft({
       setLoading(false);
     }
   }
+
+  console.log({ claimed, showClaim });
 
   if (!showClaim) return null;
 
