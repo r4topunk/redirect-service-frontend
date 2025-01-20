@@ -44,8 +44,7 @@ export default async function Page({
       Authorization: poapAuth?.value || "",
     },
   });
+  const userAuthenticated = req.ok;
 
-  const showClaimButton = req.ok;
-
-  return <UserPage user={user} showClaimButton={showClaimButton} />;
+  return <UserPage user={user} showClaimButton={userAuthenticated} />;
 }

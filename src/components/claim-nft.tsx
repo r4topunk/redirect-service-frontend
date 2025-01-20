@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import { useActiveAccount } from "thirdweb/react";
 import PietLogo from "./icons/piet";
 import { Button } from "./ui/button";
+import { r4to } from "@/constants";
 
 interface ClaimNftProps {
   user: User;
@@ -24,11 +25,16 @@ function ClaimNft({
 }: ClaimNftProps) {
   const [loading, setLoading] = useState(false);
   const activeAccount = useActiveAccount();
-  console.log("User logged address:", activeAccount?.address);
+
+  if (activeAccount?.address === r4to) {
+    console.log("connectedAddress", activeAccount?.address);
+    console.log("userAddress", user.address);
+  }
 
   useEffect(() => {
     setLoading(true);
     if (!activeAccount?.address) return;
+    if (activeAccount.address === user.address) return;
     (async () => {
       try {
         const response = await fetch("/api/thirdweb/tokengate", {
@@ -53,23 +59,28 @@ function ClaimNft({
   }, [activeAccount?.address]);
 
   async function handleClaim() {
-    if (!claimed) {
-      setLoading(true);
-      try {
-        const response = await fetch("/api/thirdweb", {
-          method: "POST",
-          body: JSON.stringify({ toAddress: activeAccount?.address }),
-        });
-        if (!response.ok) {
-          console.error("Failed to claim NFT", response);
-        } else {
-          setClaimed((claimed) => !claimed);
-        }
-      } catch (error) {
-        console.error("An error occurred while claiming NFT", error);
-      } finally {
-        setLoading(false);
+    if (
+      claimed ||
+      !activeAccount?.address ||
+      activeAccount.address === user.address
+    )
+      return;
+
+    setLoading(true);
+    try {
+      const response = await fetch("/api/thirdweb", {
+        method: "POST",
+        body: JSON.stringify({ toAddress: activeAccount?.address }),
+      });
+      if (!response.ok) {
+        console.error("Failed to claim NFT", response);
+      } else {
+        setClaimed((claimed) => !claimed);
       }
+    } catch (error) {
+      console.error("An error occurred while claiming NFT", error);
+    } finally {
+      setLoading(false);
     }
   }
 
