@@ -44,21 +44,27 @@ export default function UserPage({
       <div className="flex justify-center gap-2">
         {user.x && (
           <Button asChild variant="outline">
-            <Link href={user.x} target="_blank">
+            <Link href={`https://x.com/${user.x}`} target="_blank">
               <FaXTwitter />
             </Link>
           </Button>
         )}
         {user.instagram && (
           <Button asChild variant="outline">
-            <Link href={user.instagram} target="_blank">
+            <Link
+              href={`https://instagram.com/${user.instagram}`}
+              target="_blank"
+            >
               <FaInstagram />
             </Link>
           </Button>
         )}
         {user.tiktok && (
           <Button asChild variant="outline">
-            <Link href={user.tiktok} target="_blank">
+            <Link
+              href={`https://www.tiktok.com/@${user.tiktok}`}
+              target="_blank"
+            >
               <FaTiktok />
             </Link>
           </Button>
