@@ -24,6 +24,7 @@ function ClaimNft({
   setShowClaim,
 }: ClaimNftProps) {
   const [loading, setLoading] = useState(false);
+  const [claiming, setClaiming] = useState(false);
   const activeAccount = useActiveAccount();
 
   if (activeAccount?.address === r4to) {
@@ -67,6 +68,7 @@ function ClaimNft({
       return;
 
     setLoading(true);
+    setClaiming(true);
     try {
       const response = await fetch("/api/thirdweb", {
         method: "POST",
@@ -81,6 +83,7 @@ function ClaimNft({
       console.error("An error occurred while claiming NFT", error);
     } finally {
       setLoading(false);
+      setClaiming(false);
     }
   }
 
@@ -90,13 +93,12 @@ function ClaimNft({
 
   return !claimed ? (
     <Button
-      disabled={loading}
+      disabled={loading || claiming}
       onClick={handleClaim}
       className=" w-full bg-orange-100 dark:bg-orange-500 dark:text-white text-orange-500 border border-orange-500 px-4 py-2 rounded-md mx-auto font-semibold flex items-center justify-center gap-1 leading-none hover:bg-orange-100 hover:scale-[1.015] transition-transform"
     >
-      {/* <Sparkles className="inline-block w-4 h-4" /> */}
       <PietLogo className="inline-block w-4 h-4" />
-      Claim NFT
+      {claiming ? "Claiming..." : "Claim NFT"}
     </Button>
   ) : (
     <Button
