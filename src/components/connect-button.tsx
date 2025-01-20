@@ -30,6 +30,12 @@ export function ConnectButton() {
       connectButton={{
         label: "OPEN",
       }}
+      detailsModal={{
+        hideSwitchWallet: true,
+        hideBuyFunds: true,
+        hideSendFunds: true,
+        hideReceiveFunds: true,
+      }}
     />
   );
 }
