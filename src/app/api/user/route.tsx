@@ -75,6 +75,11 @@ export async function PUT(request: Request) {
       return NextResponse.json({ message: error }, { status: 500 });
     }
 
+    // if (userCreated) {
+    //   const contractAddress = "0x4D3423981762797Bc0381A6CeFd4D05B8B62bA70";
+    //   const mint = await mintNewPoap(contractAddress);
+    // }
+
     return NextResponse.json({ data }, { status: 200 });
   } catch (err) {
     console.error("Error parsing request body:", err);

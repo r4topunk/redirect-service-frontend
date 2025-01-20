@@ -14,7 +14,7 @@ export async function createUser(user: UserFormData) {
     });
     const json = await res.json();
     if (!res.ok) throw new Error(json?.message);
-    return { data: json.data, error: null };
+    return json;
   } catch (error) {
     console.error("Failed to create user:", error);
     return { data: null, error };
