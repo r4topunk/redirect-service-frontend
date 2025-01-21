@@ -84,7 +84,8 @@ export function LinkForm() {
           );
           if (response.ok) {
             const redirects = await response.json();
-            form.setValue("linkItems", redirects);
+            if (redirects && redirects.length > 0)
+              form.setValue("linkItems", redirects);
           } else {
             console.error("Failed to fetch redirects");
           }
