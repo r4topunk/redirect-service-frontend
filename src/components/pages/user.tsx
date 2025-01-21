@@ -42,14 +42,14 @@ export default function UserPage({
       </div>
       <div className="flex justify-center gap-2">
         {user.x && (
-          <Button asChild variant="outline">
+          <Button size={"lg"} asChild variant="outline">
             <Link href={`https://x.com/${user.x}`} target="_blank">
               <FaXTwitter />
             </Link>
           </Button>
         )}
         {user.instagram && (
-          <Button asChild variant="outline">
+          <Button size={"lg"} asChild variant="outline">
             <Link
               href={`https://instagram.com/${user.instagram}`}
               target="_blank"
@@ -59,7 +59,7 @@ export default function UserPage({
           </Button>
         )}
         {user.tiktok && (
-          <Button asChild variant="outline">
+          <Button size={"lg"} asChild variant="outline">
             <Link
               href={`https://www.tiktok.com/@${user.tiktok}`}
               target="_blank"
@@ -71,7 +71,7 @@ export default function UserPage({
       </div>
       <div className="flex justify-center gap-2">
         {user.shop && (
-          <Button className="w-full" asChild variant="outline">
+          <Button className="w-full" asChild variant="outline" size={"lg"}>
             <Link href={user.shop} target="_blank">
               <Store />
               Shop
@@ -79,7 +79,7 @@ export default function UserPage({
           </Button>
         )}
         {user.email && (
-          <Button className="w-full" asChild variant="outline">
+          <Button className="w-full" asChild variant="outline" size={"lg"}>
             <Link href={`mailto:${user.email}`} target="_blank">
               <Mail />
               Email
@@ -102,9 +102,10 @@ export default function UserPage({
           return (
             <Button
               asChild
-              variant={"secondary"}
+              variant={"outline"}
               key={index}
-              className="border border-gray-200 dark:border-gray-700"
+              size={"lg"}
+              // className="border border-gray-200 dark:border-gray-700"
             >
               <Link href={link.link} target="_blank">
                 <LinkIcon />
@@ -114,7 +115,7 @@ export default function UserPage({
           );
         })}
         {user.address === account?.address && (
-          <Button asChild variant={"default"}>
+          <Button asChild variant={"ghost"} size={"lg"}>
             <Link href="/user/links">
               <Edit /> Edit links
             </Link>
