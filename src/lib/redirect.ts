@@ -65,3 +65,20 @@ export async function updateRoute(
     return { data: null, error };
   }
 }
+
+export async function updateRouteWithData(uuid: string, data: object) {
+  try {
+    const req = await fetch(`${SERVICE_URL}/redirects/${uuid}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: SERVICE_API_KEY,
+      },
+      body: JSON.stringify(data),
+    });
+    const route = (await req.json()) as RouteType;
+    return { data: route, error: null };
+  } catch (error) {
+    return { data: null, error };
+  }
+}

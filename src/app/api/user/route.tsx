@@ -1,5 +1,8 @@
 import { UserFormData } from "@/components/user-form";
+import { CHAIN } from "@/constants";
+import { updateRouteWithData } from "@/lib/redirect";
 import { getStorageUrl, supabase } from "@/lib/supabase";
+import { mintNewPoap } from "@/lib/thirdweb/server";
 import { createUser } from "@/lib/user";
 import { NextResponse } from "next/server";
 
@@ -68,17 +71,28 @@ export async function PUT(request: Request) {
     if (shop) user.shop = shop.toString();
     if (contact_email) user.contact_email = contact_email.toString();
 
-    const { data, error } = await createUser(user);
+    const { data, error, userCreated } = await createUser(user);
 
     if (error) {
       console.error("Failed to update route:", error);
       return NextResponse.json({ message: error }, { status: 500 });
     }
 
-    // if (userCreated) {
-    //   const contractAddress = "0x4D3423981762797Bc0381A6CeFd4D05B8B62bA70";
-    //   const mint = await mintNewPoap(contractAddress);
-    // }
+    if (userCreated) {
+      const contractAddress = "0x4D3423981762797Bc0381A6CeFd4D05B8B62bA70";
+      const mint = await mintNewPoap(contractAddress);
+      if (mint) {
+        console.log("Minted new POAP:", mint);
+        await updateRouteWithData(data.uuid, {
+          url: `https://id.ss-tm.org/user/${user.username}`,
+          poapContract: contractAddress,
+          poapTokenId: mint.tokenId,
+          chainId: CHAIN.id,
+        });
+      } else {
+        console.error("Failed to mint new POAP");
+      }
+    }
 
     return NextResponse.json({ data }, { status: 200 });
   } catch (err) {
