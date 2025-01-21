@@ -28,7 +28,9 @@ export const formSchema = z.object({
   address: z.string(),
   nfc: z.string(),
   email: z.string().email({ message: "Invalid email address" }),
-  avatar: z.instanceof(File, { message: "Invalid avatar" }).or(z.string()),
+  avatar: z
+    .instanceof(File, { message: "Invalid avatar" })
+    .or(z.string().min(1, { message: "Avatar is required" })),
   bio: z.string().nonempty({ message: "Role is required" }),
   x: z.string().or(z.undefined()),
   instagram: z.string().optional(),
@@ -84,6 +86,7 @@ function UserForm({ user: defaultUser }: UserFormProps) {
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
+    console.log("file", file);
     if (file) {
       form.setValue("avatar", file);
       const reader = new FileReader();
@@ -91,11 +94,13 @@ function UserForm({ user: defaultUser }: UserFormProps) {
         setAvatarPreview(event.target?.result as string);
       reader.readAsDataURL(file);
     } else {
+      form.setValue("avatar", "");
       setAvatarPreview(null);
     }
   }
 
   async function onSubmit(values: UserFormData) {
+    console.log("Avatar value on submit:", values.avatar);
     const formData = new FormData();
     formData.append("username", values.username);
     formData.append("address", values.address);
