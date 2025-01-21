@@ -10,6 +10,8 @@ import { resolveScheme } from "thirdweb/storage";
 export async function PUT(request: Request) {
   try {
     const formData = await request.formData();
+    console.log("Inserting user:", formData);
+
     const username = formData.get("username");
     const avatarFile = formData.get("avatar");
     let avatar: string | null = null;

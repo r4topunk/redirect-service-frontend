@@ -119,10 +119,14 @@ function UserForm({ user: defaultUser }: UserFormProps) {
     if (values.avatar) formData.append("avatar", values.avatar);
     formData.append("links", JSON.stringify(values.links));
 
-    await fetch("/api/user", {
+    const userInsert = await fetch("/api/user", {
       method: "PUT",
       body: formData,
     });
+    if (!userInsert.ok) {
+      console.error("Failed to insert user:", userInsert);
+      return;
+    }
 
     router.push(`/user/${values.username}`);
   }
