@@ -36,7 +36,7 @@ export default function UserPage({
         <img
           src={user.avatar}
           alt={user.username}
-          className="rounded-full w-24 h-24 mx-auto mb-3"
+          className="rounded-full w-24 h-24 mx-auto mb-3 object-cover"
         />
         {userOwnAccount ? (
           <div className="flex gap-1 justify-center items-center">
