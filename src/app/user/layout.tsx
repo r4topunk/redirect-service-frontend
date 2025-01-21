@@ -3,6 +3,7 @@
 import { ConnectButton } from "@/components/connect-button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { usePathname } from "next/navigation";
+import { useActiveAccount } from "thirdweb/react";
 
 export default function UserLayout({
   children,
@@ -10,11 +11,12 @@ export default function UserLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
+  const account = useActiveAccount();
   console.log({ pathname });
   return (
     <>
       <div className="fixed bottom-2 w-full flex items-end justify-center gap-2">
-        {pathname !== "/user/register" && <ConnectButton />}
+        {(pathname !== "/user/register" || account) && <ConnectButton />}
         <ThemeToggle />
       </div>
       {children}

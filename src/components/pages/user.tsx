@@ -31,7 +31,7 @@ export default function UserPage({
   // }
 
   return (
-    <div className="max-w-md mx-auto p-4 space-y-4">
+    <div className="max-w-md mx-auto p-4 space-y-3">
       <div>
         <img
           src={user.avatar}

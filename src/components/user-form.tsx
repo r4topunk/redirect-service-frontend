@@ -350,9 +350,14 @@ function UserForm({ user: defaultUser }: UserFormProps) {
         <Button
           type="submit"
           className="w-full"
-          disabled={form.formState.isSubmitting}
+          disabled={
+            form.formState.isSubmitting || form.formState.isSubmitSuccessful
+          }
+          size={"lg"}
         >
-          {form.formState.isSubmitting ? "Saving..." : "Confirm"}
+          {form.formState.isSubmitting || form.formState.isSubmitSuccessful
+            ? "Saving..."
+            : "Confirm"}
         </Button>
       </form>
     </Form>
