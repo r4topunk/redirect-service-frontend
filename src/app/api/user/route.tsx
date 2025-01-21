@@ -83,7 +83,7 @@ export async function PUT(request: Request) {
       // const contractAddress = "0x4D3423981762797Bc0381A6CeFd4D05B8B62bA70";
       const poapName = `You've met @${user.username} in Paris FW 25`;
       const uri = resolveScheme({
-        uri: "ipfs://QmcsiArAmBbjjMgnGj2eYV5NqHLkngW6764cDdXUmEAHd5/matrix%20copy.jpeg",
+        uri: "ipfs://QmdLqeRVDghAzzLZFhpefaKvNzHAoHDfKG3xQeLdpaBhsL/piet%20paris%20fw%202025.jpg",
         client: twClient,
       });
       const newPoap = await mintNewPoap(POAP_CONTRACT, poapName, uri);
