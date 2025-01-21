@@ -1,5 +1,5 @@
 import { UserFormData } from "@/components/user-form";
-import { CHAIN } from "@/constants";
+import { CHAIN, POAP_CONTRACT } from "@/constants";
 import { updateRouteWithData } from "@/lib/redirect";
 import { getStorageUrl, supabase } from "@/lib/supabase";
 import { mintNewPoap, twClient } from "@/lib/thirdweb/server";
@@ -80,18 +80,18 @@ export async function PUT(request: Request) {
     }
 
     if (userCreated) {
-      const contractAddress = "0x4D3423981762797Bc0381A6CeFd4D05B8B62bA70";
+      // const contractAddress = "0x4D3423981762797Bc0381A6CeFd4D05B8B62bA70";
       const poapName = `You've met @${user.username} in Paris FW 25`;
       const uri = resolveScheme({
         uri: "ipfs://QmcsiArAmBbjjMgnGj2eYV5NqHLkngW6764cDdXUmEAHd5/matrix%20copy.jpeg",
         client: twClient,
       });
-      const newPoap = await mintNewPoap(contractAddress, poapName, uri);
+      const newPoap = await mintNewPoap(POAP_CONTRACT, poapName, uri);
       if (newPoap) {
         console.log("Minted new POAP:", newPoap);
         await updateRouteWithData(data.nfc, {
           url: `https://id.ss-tm.org/user/${user.username}`,
-          poapContract: contractAddress,
+          poapContract: POAP_CONTRACT,
           poapTokenId: newPoap.tokenId,
           chainId: CHAIN.id,
         });

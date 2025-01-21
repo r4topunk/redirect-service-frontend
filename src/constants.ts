@@ -9,5 +9,6 @@ export const SERVICE_URL = process.env.NEXT_PUBLIC_SERVICE_URL!;
 
 export const CHAIN = base;
 export const ACCOUNT_FACTORY = "0x65E32f5375a0094fa81e71B1334c8dbb088A534c";
+export const POAP_CONTRACT = "0xCFa1e50C5189bae643a32715283a3c6c64FcB4B1";
 
 export const r4to = "0x1fd1405aE28ef1855A0d26CE07555Be661405fCb";
