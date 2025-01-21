@@ -12,20 +12,11 @@ export default function UserLayout({
 }>) {
   const pathname = usePathname();
   const account = useActiveAccount();
-  console.log(
-    "all",
-    (pathname !== "/user/register" && pathname !== "/user/edit") ||
-      (account && "teste")
-  );
-  console.log(
-    "pathname",
-    pathname !== "/user/register" && pathname !== "/user/edit"
-  );
-  console.log("account", !account && "teste");
   return (
     <>
       <div className="fixed bottom-2 w-full flex items-end justify-center gap-2">
-        {(pathname !== "/user/register" && pathname !== "/user/edit") ||
+        {(pathname !== "/user/register" &&
+          !pathname.startsWith("/user/edit")) ||
         account ? (
           <ConnectButton />
         ) : null}
