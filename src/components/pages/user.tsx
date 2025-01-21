@@ -1,7 +1,7 @@
 "use client";
 
 import { User } from "@/app/user/[username]/page";
-import { Edit, LinkIcon, Mail, Store } from "lucide-react";
+import { Edit, LinkIcon, Mail, Pencil, Store } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { FaInstagram, FaTiktok, FaXTwitter } from "react-icons/fa6";
@@ -20,6 +20,7 @@ export default function UserPage({
   const [showClaim, setShowClaim] = useState(showClaimButton);
 
   const account = useActiveAccount();
+  const userOwnAccount = account?.address === user.address;
 
   // if (!account?.address) {
   //   return (
@@ -37,7 +38,16 @@ export default function UserPage({
           alt={user.username}
           className="rounded-full w-24 h-24 mx-auto mb-3"
         />
-        <p className="text-center text-xl font-bold">@{user.username}</p>
+        {userOwnAccount ? (
+          <div className="flex gap-1 justify-center items-center">
+            <p className="text-center text-xl font-bold">@{user.username}</p>
+            <Link href="/user/register">
+              <Pencil size={14} strokeWidth={2.4} />
+            </Link>
+          </div>
+        ) : (
+          <p className="text-center text-xl font-bold">@{user.username}</p>
+        )}
         <p className="text-center text-sm text-muted-foreground">{user.bio}</p>
       </div>
       <div className="flex justify-center gap-2">
