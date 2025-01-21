@@ -39,12 +39,14 @@ export default function UserPage({
           className="rounded-full w-24 h-24 mx-auto mb-3 object-cover"
         />
         {userOwnAccount ? (
-          <div className="flex gap-1 justify-center items-center">
+          <Link
+            href={`/user/edit/${user.username}`}
+            prefetch={false}
+            className="flex gap-1 justify-center items-center"
+          >
             <p className="text-center text-xl font-bold">@{user.username}</p>
-            <Link href="/user/register">
-              <Pencil size={14} strokeWidth={2.4} />
-            </Link>
-          </div>
+            <Pencil size={14} strokeWidth={2.4} />
+          </Link>
         ) : (
           <p className="text-center text-xl font-bold">@{user.username}</p>
         )}

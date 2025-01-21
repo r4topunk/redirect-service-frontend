@@ -28,7 +28,9 @@ export async function getUser(username: string) {
   }
 
   try {
-    const res = await fetch(`${SERVICE_URL}/user/${username}`);
+    const res = await fetch(`${SERVICE_URL}/user/${username}`, {
+      cache: "no-store",
+    });
     if (!res.ok) {
       throw new Error("Network response was not ok");
     }
