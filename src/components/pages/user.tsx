@@ -129,7 +129,7 @@ export default function UserPage({
         {user.address === account?.address && (
           <Button asChild variant={"ghost"} size={"lg"}>
             <Link href="/user/links">
-              <Edit /> Edit links
+              <Edit /> Add links
             </Link>
           </Button>
         )}
