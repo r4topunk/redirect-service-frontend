@@ -68,6 +68,7 @@ export async function updateRoute(
 
 export async function updateRouteWithData(uuid: string, data: object) {
   try {
+    console.log("Updating route with data:", { uuid, data });
     const req = await fetch(`${SERVICE_URL}/redirects/${uuid}`, {
       method: "PUT",
       headers: {
@@ -76,8 +77,9 @@ export async function updateRouteWithData(uuid: string, data: object) {
       },
       body: JSON.stringify(data),
     });
-    const route = (await req.json()) as RouteType;
-    return { data: route, error: null };
+    const json = await req.json();
+    console.log("Route updated:", json);
+    return { data: json, error: null };
   } catch (error) {
     return { data: null, error };
   }

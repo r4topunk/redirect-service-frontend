@@ -80,13 +80,13 @@ export async function PUT(request: Request) {
 
     if (userCreated) {
       const contractAddress = "0x4D3423981762797Bc0381A6CeFd4D05B8B62bA70";
-      const mint = await mintNewPoap(contractAddress);
-      if (mint) {
-        console.log("Minted new POAP:", mint);
-        await updateRouteWithData(data.uuid, {
+      const newPoap = await mintNewPoap(contractAddress);
+      if (newPoap) {
+        console.log("Minted new POAP:", newPoap);
+        await updateRouteWithData(data.nfc, {
           url: `https://id.ss-tm.org/user/${user.username}`,
           poapContract: contractAddress,
-          poapTokenId: mint.tokenId,
+          poapTokenId: newPoap.tokenId,
           chainId: CHAIN.id,
         });
       } else {
