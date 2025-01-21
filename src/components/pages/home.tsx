@@ -12,8 +12,8 @@ import {
 } from "thirdweb/react";
 
 const ADMIN_ADDRESSES = [
-  "0xEFFe72E582FCaff4b5bDa8c5a51a001b51F49B0D",
-  "0x1fd1405aE28ef1855A0d26CE07555Be661405fCb",
+  "0xc830d35d423dE0baF6f36a40B3EA8414e20b07d6", // r4to
+  "0x915Ecfcd3e4b9a26C6ba8573CF46EB6081D339B8", // piixel
 ];
 
 function HomePage({
