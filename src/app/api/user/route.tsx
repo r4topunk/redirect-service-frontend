@@ -2,9 +2,10 @@ import { UserFormData } from "@/components/user-form";
 import { CHAIN } from "@/constants";
 import { updateRouteWithData } from "@/lib/redirect";
 import { getStorageUrl, supabase } from "@/lib/supabase";
-import { mintNewPoap } from "@/lib/thirdweb/server";
+import { mintNewPoap, twClient } from "@/lib/thirdweb/server";
 import { createUser } from "@/lib/user";
 import { NextResponse } from "next/server";
+import { resolveScheme } from "thirdweb/storage";
 
 export async function PUT(request: Request) {
   try {
@@ -80,7 +81,12 @@ export async function PUT(request: Request) {
 
     if (userCreated) {
       const contractAddress = "0x4D3423981762797Bc0381A6CeFd4D05B8B62bA70";
-      const newPoap = await mintNewPoap(contractAddress);
+      const poapName = `You've met @${user.username} in Paris FW 25`;
+      const uri = resolveScheme({
+        uri: "ipfs://QmcsiArAmBbjjMgnGj2eYV5NqHLkngW6764cDdXUmEAHd5/matrix%20copy.jpeg",
+        client: twClient,
+      });
+      const newPoap = await mintNewPoap(contractAddress, poapName, uri);
       if (newPoap) {
         console.log("Minted new POAP:", newPoap);
         await updateRouteWithData(data.nfc, {

@@ -4,12 +4,13 @@ import {
   getContractEvents,
   prepareContractCall,
   prepareEvent,
-  readContract,
   sendTransaction,
   getContract as twGetContract,
 } from "thirdweb";
-import { mintTo } from "thirdweb/extensions/erc1155";
-import { resolveScheme } from "thirdweb/storage";
+import {
+  nextTokenIdToMint as erc1155TokenIdToMint,
+  mintTo,
+} from "thirdweb/extensions/erc1155";
 import { privateKeyToAccount } from "thirdweb/wallets";
 
 export const twClient = createThirdwebClient({
@@ -29,35 +30,31 @@ export const getContract = (address: string) => {
   });
 };
 
-export async function mintNewPoap(contractAddress: string) {
+export async function mintNewPoap(
+  contractAddress: string,
+  name: string,
+  image: string
+) {
   const contract = getContract(contractAddress);
   const maxAttempts = 5;
 
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     try {
-      const nextTokenIdToMint = await readContract({
+      const nextTokenIdToMint = await erc1155TokenIdToMint({
         contract,
-        method: "function nextTokenIdToMint() view returns (uint256)",
-        params: [],
       });
       console.log(
         `Attempt ${attempt} - Next token ID to mint:`,
         nextTokenIdToMint
       );
 
-      const uri = resolveScheme({
-        uri: "ipfs://QmcsiArAmBbjjMgnGj2eYV5NqHLkngW6764cDdXUmEAHd5/matrix%20copy.jpeg",
-        client: twClient,
-      });
-
       const tx = mintTo({
         contract,
         to: personalAccount.address,
         supply: BigInt(0),
         nft: {
-          name: "Matrix",
-          description: "This is Matrix",
-          image: uri,
+          name,
+          image,
         },
       });
 
@@ -65,6 +62,7 @@ export async function mintNewPoap(contractAddress: string) {
         transaction: tx,
         account: personalAccount,
       });
+
       return {
         txHash: txResult.transactionHash,
         tokenId: Number(nextTokenIdToMint),
