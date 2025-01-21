@@ -1,6 +1,6 @@
 "use client";
 
-import { CHAIN } from "@/constants";
+import { ACCOUNT_FACTORY, CHAIN } from "@/constants";
 import { twClient } from "@/lib/thirdweb/client";
 import { ConnectButton as ThirdWebConnectButton } from "thirdweb/react";
 import { inAppWallet } from "thirdweb/wallets";
@@ -20,7 +20,7 @@ export function ConnectButton() {
       wallets={wallets}
       accountAbstraction={{
         chain: CHAIN,
-        factoryAddress: "0xA480309BFBd5e18be842972A05972FcFE8B47352",
+        factoryAddress: ACCOUNT_FACTORY,
         gasless: true,
       }}
       connectModal={{
