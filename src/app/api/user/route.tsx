@@ -49,12 +49,17 @@ export async function PUT(request: Request) {
     const contact_email = formData.get("contact_email");
     // const links = formData.get("links");
 
-    if (!username || !address || !nfc || !email || !bio || !avatar) {
+    if (!username || !address || !nfc || !email || !bio) {
       console.log(formData);
       return NextResponse.json(
         { message: "All fields are required" },
         { status: 400 }
       );
+    }
+
+    if (!avatar) {
+      avatar =
+        "https://ggdqzqslplqnhrmcxwbr.supabase.co/storage/v1/object/public/id_images/oye_pfp.png";
     }
 
     const user: UserFormData = {
@@ -64,6 +69,7 @@ export async function PUT(request: Request) {
       email: email.toString(),
       bio: bio.toString(),
       avatar: avatar.toString(),
+      links: [],
     };
 
     if (x) user.x = x.toString();
