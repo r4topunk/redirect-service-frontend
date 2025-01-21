@@ -1,3 +1,4 @@
+import { ConnectButton } from "@/components/connect-button";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function UserLayout({
@@ -7,7 +8,8 @@ export default function UserLayout({
 }>) {
   return (
     <>
-      <div className="absolute right-4 bottom-4">
+      <div className="fixed bottom-2 w-full flex items-end justify-center gap-2">
+        <ConnectButton />
         <ThemeToggle />
       </div>
       {children}

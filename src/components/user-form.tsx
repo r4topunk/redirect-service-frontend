@@ -135,7 +135,7 @@ function UserForm({ user: defaultUser }: UserFormProps) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 pb-16">
         <div className="flex flex-col gap-3 border border-input rounded-lg p-4">
           <FormLabel className="text-lg font-semibold mb-[-4px]">
             Profile

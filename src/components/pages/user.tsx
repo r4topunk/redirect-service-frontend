@@ -1,14 +1,13 @@
 "use client";
 
 import { User } from "@/app/user/[username]/page";
-import { Edit, Mail, Store } from "lucide-react";
+import { Edit, LinkIcon, Mail, Store } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { FaInstagram, FaTiktok, FaXTwitter } from "react-icons/fa6";
+import { useActiveAccount } from "thirdweb/react";
 import ClaimNft from "../claim-nft";
 import { Button } from "../ui/button";
-import { useActiveAccount } from "thirdweb/react";
-import { ConnectButton } from "../connect-button";
 
 export default function UserPage({
   user,
@@ -32,9 +31,6 @@ export default function UserPage({
 
   return (
     <div className="max-w-md mx-auto p-4 space-y-4">
-      <div className="flex justify-center gap-2">
-        <ConnectButton />
-      </div>
       <div>
         <img
           src={user.avatar}
@@ -104,8 +100,14 @@ export default function UserPage({
             return null;
 
           return (
-            <Button asChild variant={"secondary"} key={index}>
+            <Button
+              asChild
+              variant={"secondary"}
+              key={index}
+              className="border border-gray-200 dark:border-gray-700"
+            >
               <Link href={link.link} target="_blank">
+                <LinkIcon />
                 {link.description}
               </Link>
             </Button>
