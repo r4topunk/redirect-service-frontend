@@ -109,10 +109,11 @@ export default function UserPage({
       <div className="flex flex-col gap-3">
         {user.links.map((link, index) => {
           if (
-            link.secret &&
-            user.address !== account?.address &&
-            !claimed &&
-            !showClaim
+            !account ||
+            (link.secret &&
+              user.address !== account?.address &&
+              !claimed &&
+              !showClaim)
           )
             return null;
 
