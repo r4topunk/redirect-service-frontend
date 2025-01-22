@@ -152,8 +152,8 @@ export function LinkForm() {
                       <div className="grid gap-1.5 leading-none">
                         <FormLabel>Secret</FormLabel>
                         <FormDescription>
-                          Mark this link as secret if you want to hide it from
-                          public view
+                          This link will only appear to those who tap your NFC
+                          card or claimed your NFT.
                         </FormDescription>
                       </div>
                     </div>
