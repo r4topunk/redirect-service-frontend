@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SSTM - Identity Provider",
+  title: "SS-TM | Identity System",
 };
 
 export default function RootLayout({
