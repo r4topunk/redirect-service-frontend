@@ -108,7 +108,7 @@ function ClaimNft({
       className="w-full bg-orange-100 text-orange-500 dark:bg-orange-500 dark:text-white hover:bg-orange-100 border-none px-4 py-2 rounded-md mx-auto font-medium flex items-center justify-center gap-1 leading-none hover:scale-[1.015] transition-transform"
     >
       <Handshake strokeWidth={1.5} />
-      You met @{user.username}
+      You&apos;ve met @{user.username}
     </Button>
   );
 }
