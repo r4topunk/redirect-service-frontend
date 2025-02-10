@@ -16,15 +16,15 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { RouteType } from "@/lib/redirect";
+import { RedirectType } from "@/lib/redirect";
 import { Edit } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Textarea } from "../ui/textarea";
 
 interface RedirectEditDialogProps {
-  route: RouteType;
-  setRoute: (route: RouteType) => void;
+  route: RedirectType;
+  setRoute: (route: RedirectType) => void;
 }
 
 interface FormData {

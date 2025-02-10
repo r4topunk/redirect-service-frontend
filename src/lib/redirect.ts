@@ -1,11 +1,18 @@
 import { SERVICE_API_KEY, SERVICE_URL } from "@/constants";
 
-export type RouteType = {
+export type RedirectType = {
   uuid: string;
   url: string;
   createdAt: string;
   link: string;
   description: string | null;
+  project: Project;
+};
+
+export type Project = {
+  id: string;
+  name: string;
+  createdAt: string;
 };
 
 export async function fetchRoutes() {
@@ -15,7 +22,7 @@ export async function fetchRoutes() {
         Authorization: SERVICE_API_KEY,
       },
     });
-    const routes = (await req.json()) as RouteType[];
+    const routes = (await req.json()) as RedirectType[];
     return { data: routes, error: null };
   } catch (error) {
     return { data: null, error };
@@ -59,7 +66,7 @@ export async function updateRoute(
       },
       body: JSON.stringify({ url, description }),
     });
-    const route = (await req.json()) as RouteType;
+    const route = (await req.json()) as RedirectType;
     return { data: route, error: null };
   } catch (error) {
     return { data: null, error };

@@ -9,11 +9,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { RouteType } from "@/lib/redirect";
+import { RedirectType } from "@/lib/redirect";
 import { useState } from "react";
 
 interface RedirectPageProps {
-  redirects: RouteType[];
+  redirects: RedirectType[];
 }
 
 function RedirectPage({ redirects: defaultRedirect }: RedirectPageProps) {
@@ -26,6 +26,7 @@ function RedirectPage({ redirects: defaultRedirect }: RedirectPageProps) {
         <TableHeader>
           <TableRow>
             <TableHead>UUID</TableHead>
+            <TableHead>Project</TableHead>
             <TableHead>Created at</TableHead>
             <TableHead>Redirect</TableHead>
             <TableHead>Description</TableHead>

@@ -10,16 +10,16 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { NextLink } from "@/lib/next";
-import { RouteType } from "@/lib/redirect";
+import { RedirectType } from "@/lib/redirect";
 import { CheckIcon, Copy, ExternalLink } from "lucide-react";
 import { useState } from "react";
 
 interface RedirectRowProps {
-  route: RouteType;
+  route: RedirectType;
 }
 
 function RedirectRow({ route }: RedirectRowProps) {
-  const [currentRoute, setRoute] = useState<RouteType>(route);
+  const [currentRoute, setRoute] = useState<RedirectType>(route);
   const [copied, setCopied] = useState<string | null>(null);
 
   const handleCopy = (link: string) => {
@@ -31,6 +31,7 @@ function RedirectRow({ route }: RedirectRowProps) {
   return (
     <TableRow key={currentRoute.uuid}>
       <TableCell>{currentRoute.uuid}</TableCell>
+      <TableCell>{currentRoute?.project.name || "-"}</TableCell>
       <TableCell>
         {new Date(currentRoute.createdAt).toLocaleDateString()}
       </TableCell>
