@@ -11,6 +11,13 @@ import {
 } from "@/components/ui/table";
 import { RedirectType } from "@/lib/redirect";
 import { useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface RedirectPageProps {
   redirects: RedirectType[];
@@ -18,10 +25,40 @@ interface RedirectPageProps {
 
 function RedirectPage({ redirects: defaultRedirect }: RedirectPageProps) {
   const [redirects, setRedirects] = useState(defaultRedirect);
+  const [selectedProject, setSelectedProject] = useState("All projects");
+
+  // Compute unique projects from the available redirects
+  const projectNames = Array.from(
+    new Set(redirects.map((r) => r.project.name))
+  );
+
+  const filteredRedirects =
+    selectedProject === "All projects"
+      ? redirects
+      : redirects.filter((r) => r.project.name === selectedProject);
 
   return (
     <div className="p-4 flex-1 rounded-xl bg-muted/50 md:min-h-min w-full">
-      <InsertRedirectDialog setRedirects={setRedirects} />
+      <div className="flex justify-between items-center mb-4">
+        <Select
+          value={selectedProject}
+          onValueChange={(value) => setSelectedProject(value)}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="All projects" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="All projects">All projects</SelectItem>
+            {projectNames.map((name) => (
+              <SelectItem key={name} value={name}>
+                {name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <InsertRedirectDialog setRedirects={setRedirects} />
+      </div>
+
       <Table className="max-w-full rounded-sm overflow-hidden">
         <TableHeader>
           <TableRow>
@@ -34,7 +71,7 @@ function RedirectPage({ redirects: defaultRedirect }: RedirectPageProps) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {redirects.map((route) => (
+          {filteredRedirects.map((route) => (
             <RedirectRow key={route.uuid} route={route} />
           ))}
         </TableBody>

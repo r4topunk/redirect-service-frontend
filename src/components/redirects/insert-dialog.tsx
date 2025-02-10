@@ -62,9 +62,7 @@ export default function InsertRedirectDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant={"default"} className="mb-4">
-          Insert Redirect
-        </Button>
+        <Button variant={"default"}>Insert Redirect</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
