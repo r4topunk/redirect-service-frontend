@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { RouteType } from "@/lib/redirect";
+import { RedirectType } from "@/lib/redirect";
 import { Dispatch, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -24,7 +24,7 @@ interface InsertDialogFormData {
 }
 
 interface InsertDialogProps {
-  setRedirects: Dispatch<SetStateAction<RouteType[]>>;
+  setRedirects: Dispatch<SetStateAction<RedirectType[]>>;
 }
 
 export default function InsertRedirectDialog({
@@ -62,11 +62,9 @@ export default function InsertRedirectDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <div className="w-full flex ">
-          <Button variant={"default"} className="mb-4">
-            Insert Redirect
-          </Button>
-        </div>
+        <Button variant={"default"} className="mb-4">
+          Insert Redirect
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
