@@ -30,10 +30,18 @@ function RedirectRow({ route }: RedirectRowProps) {
 
   return (
     <TableRow key={currentRoute.uuid}>
-      <TableCell>{currentRoute.uuid}</TableCell>
-      <TableCell>{currentRoute?.project.name || "-"}</TableCell>
+      <TableCell className="font-bold font-mono">
+        {currentRoute?.project.name || "-"}
+      </TableCell>
+      <TableCell className="whitespace-nowrap font-mono">
+        {currentRoute.uuid}
+      </TableCell>
       <TableCell>
-        {new Date(currentRoute.createdAt).toLocaleDateString()}
+        {new Date(currentRoute.createdAt).toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "2-digit",
+        })}
       </TableCell>
       <TableCell>{currentRoute.url}</TableCell>
       <TableCell>{currentRoute.description}</TableCell>

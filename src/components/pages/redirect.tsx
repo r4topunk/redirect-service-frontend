@@ -25,9 +25,9 @@ function RedirectPage({ redirects: defaultRedirect }: RedirectPageProps) {
       <Table className="max-w-full rounded-sm overflow-hidden">
         <TableHeader>
           <TableRow>
-            <TableHead>UUID</TableHead>
             <TableHead>Project</TableHead>
-            <TableHead>Created at</TableHead>
+            <TableHead>UUID</TableHead>
+            <TableHead className="whitespace-nowrap">Created at</TableHead>
             <TableHead>Redirect</TableHead>
             <TableHead>Description</TableHead>
             <TableHead>Actions</TableHead>
