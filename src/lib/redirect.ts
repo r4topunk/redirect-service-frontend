@@ -6,7 +6,7 @@ export type RedirectType = {
   createdAt: string;
   link: string;
   description: string | null;
-  project: Project;
+  project?: Project;
 };
 
 export type Project = {

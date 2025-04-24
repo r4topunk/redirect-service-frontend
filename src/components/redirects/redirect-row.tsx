@@ -31,7 +31,7 @@ function RedirectRow({ route }: RedirectRowProps) {
   return (
     <TableRow key={currentRoute.uuid}>
       <TableCell className="font-bold font-mono">
-        {currentRoute?.project.name || "-"}
+        {currentRoute?.project?.name || "-"}
       </TableCell>
       <TableCell className="whitespace-nowrap font-mono">
         {currentRoute.uuid}

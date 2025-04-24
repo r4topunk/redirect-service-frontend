@@ -29,13 +29,13 @@ function RedirectPage({ redirects: defaultRedirect }: RedirectPageProps) {
 
   // Compute unique projects from the available redirects
   const projectNames = Array.from(
-    new Set(redirects.map((r) => r.project.name))
+    new Set(redirects.map((r) => r.project?.name).filter(Boolean))
   );
 
   const filteredRedirects =
     selectedProject === "All projects"
       ? redirects
-      : redirects.filter((r) => r.project.name === selectedProject);
+      : redirects.filter((r) => r.project?.name === selectedProject);
 
   return (
     <div className="p-4 flex-1 rounded-xl bg-muted/50 md:min-h-min w-full">
@@ -50,7 +50,7 @@ function RedirectPage({ redirects: defaultRedirect }: RedirectPageProps) {
           <SelectContent>
             <SelectItem value="All projects">All projects</SelectItem>
             {projectNames.map((name) => (
-              <SelectItem key={name} value={name}>
+              <SelectItem key={name as string} value={name as string}>
                 {name}
               </SelectItem>
             ))}
